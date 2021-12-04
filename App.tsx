@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -19,15 +19,8 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-import { useInitialUrl } from './src/hooks/useInitialUrl';
+import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
+import LoginForm from './src/LoginForm';
 
 const Section: React.FC<{
   title: string;
@@ -59,7 +52,10 @@ const Section: React.FC<{
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
-  const { url, processing } = useInitialUrl();
+
+  // State (TEMP)
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -76,19 +72,8 @@ const App = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
-            <Text>Launched with url: {url}</Text>
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
+          <Section title="Sign in" />
+          <LoginForm />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -111,6 +96,13 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  input: {
+    borderColor: Colors.black,
+    borderWidth: 1,
+    height: 40,
+    marginVertical: 4,
+    marginHorizontal: 8,
   },
 });
 

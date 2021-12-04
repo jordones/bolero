@@ -17,8 +17,18 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Share song!"
-        self.handleSharedLink()
+        let defaults = UserDefaults(suiteName: "group.bolero")
+        let token = defaults?.string(forKey: "access_token") ?? nil
+        print(token)
+        if token != nil {
+          self.title = "auth: yes"
+          self.textView.text = token
+        } else {
+          self.title = "auth: no"
+          self.textView.text = "no token"
+        }
+//        self.title = "Share song!"
+//        self.handleSharedLink()
     }
   
     override func isContentValid() -> Bool {

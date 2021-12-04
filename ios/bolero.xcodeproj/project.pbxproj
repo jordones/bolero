@@ -72,6 +72,8 @@
 		F720F1D5275AE01B008620A8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		F720F1D8275AE01B008620A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		F720F1DA275AE01B008620A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F720F1E2275C273E008620A8 /* bolero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = bolero.entitlements; path = bolero/bolero.entitlements; sourceTree = "<group>"; };
+		F720F1E3275C2805008620A8 /* Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 		13B07FAE1A68108700A75B9A /* bolero */ = {
 			isa = PBXGroup;
 			children = (
+				F720F1E2275C273E008620A8 /* bolero.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -188,6 +191,7 @@
 		F720F1D4275AE01B008620A8 /* Share */ = {
 			isa = PBXGroup;
 			children = (
+				F720F1E3275C2805008620A8 /* Share.entitlements */,
 				F720F1D5275AE01B008620A8 /* ShareViewController.swift */,
 				F720F1D7275AE01B008620A8 /* MainInterface.storyboard */,
 				F720F1DA275AE01B008620A8 /* Info.plist */,
@@ -587,6 +591,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = bolero/bolero.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5XSH459DZY;
@@ -617,6 +622,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = bolero/bolero.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5XSH459DZY;
@@ -771,6 +777,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = Share/Share.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -813,6 +820,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = Share/Share.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
