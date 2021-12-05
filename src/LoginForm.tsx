@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import {
   StyleSheet,
   Text,
@@ -78,8 +78,7 @@ const logout = (callback: (token: string) => void) => {
 
 const LoginForm = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
-  // State (TEMP)
+  const style = styles(isDarkMode);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [auth, setAuth] = useState('');
@@ -89,26 +88,23 @@ const LoginForm = () => {
   }, []);
 
   return (
-    <View
-      style={{
-        backgroundColor: isDarkMode ? Colors.black : Colors.white,
-      }}>
+    <View style={style.view}>
       <Text>{email}</Text>
-      {!!auth && auth !== 'nil' ? (
-        <>
-          <Text>{`user id: ${auth}`}</Text>
+      {auth ? (
+        <Fragment>
+          <Text style={style.text}>{`user id: ${auth}`}</Text>
           <Button title="logout" onPress={() => logout(setAuth)} />
-        </>
+        </Fragment>
       ) : (
-        <>
+        <Fragment>
           <TextInput
-            style={styles.input}
+            style={style.input}
             placeholder="email"
             onChangeText={setEmail}
             secureTextEntry={false}
           />
           <TextInput
-            style={styles.input}
+            style={style.input}
             placeholder="password"
             secureTextEntry
             onChangeText={setPassword}
@@ -117,20 +113,28 @@ const LoginForm = () => {
             title="submit"
             onPress={() => signIn({ email, password }, setAuth)}
           />
-        </>
+        </Fragment>
       )}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  input: {
-    borderColor: Colors.black,
-    borderWidth: 1,
-    height: 40,
-    marginVertical: 4,
-    marginHorizontal: 8,
-  },
-});
+const styles = (darkMode: boolean) =>
+  StyleSheet.create({
+    view: {
+      backgroundColor: darkMode ? Colors.black : Colors.white,
+    },
+    input: {
+      borderColor: darkMode ? Colors.white : Colors.black,
+      color: darkMode ? Colors.white : Colors.black,
+      borderWidth: 1,
+      height: 40,
+      marginVertical: 4,
+      marginHorizontal: 8,
+    },
+    text: {
+      color: darkMode ? Colors.white : Colors.black,
+    },
+  });
 
 export default LoginForm;

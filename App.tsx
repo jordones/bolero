@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -53,10 +53,6 @@ const Section: React.FC<{
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  // State (TEMP)
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -96,13 +92,6 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
-  },
-  input: {
-    borderColor: Colors.black,
-    borderWidth: 1,
-    height: 40,
-    marginVertical: 4,
-    marginHorizontal: 8,
   },
 });
 
