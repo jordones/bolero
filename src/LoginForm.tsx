@@ -39,7 +39,7 @@ const signIn = async (
     returnSecureToken: true,
   };
 
-  const apiKey = '1234Abcd';
+  const apiKey = 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY';
   const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
   const result = await fetch(url, {
     method: 'POST',
@@ -54,6 +54,11 @@ const signIn = async (
     SharedStorage.setString('access_token', data.idToken ?? 'nil');
     SharedStorage.getString('access_token', callback, () => {});
   }
+};
+
+const logout = (callback: (token: string) => void) => {
+  SharedStorage.setString('access_token', '');
+  SharedStorage.getString('access_token', callback, () => {});
 };
 
 const LoginForm = () => {
@@ -74,23 +79,31 @@ const LoginForm = () => {
         backgroundColor: isDarkMode ? Colors.black : Colors.white,
       }}>
       <Text>{email}</Text>
-      <Text>{!!auth && auth !== 'nil' && `user id: ${auth}`}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="email"
-        onChangeText={setEmail}
-        secureTextEntry={false}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="password"
-        secureTextEntry
-        onChangeText={setPassword}
-      />
-      <Button
-        title="submit"
-        onPress={() => signIn({ email, password }, setAuth)}
-      />
+      {!!auth && auth != 'nil' ? (
+        <>
+          <Text>{`user id: ${auth}`}</Text>
+          <Button title="logout" onPress={() => logout(setAuth)} />
+        </>
+      ) : (
+        <>
+          <TextInput
+            style={styles.input}
+            placeholder="email"
+            onChangeText={setEmail}
+            secureTextEntry={false}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="password"
+            secureTextEntry
+            onChangeText={setPassword}
+          />
+          <Button
+            title="submit"
+            onPress={() => signIn({ email, password }, setAuth)}
+          />
+        </>
+      )}
     </View>
   );
 };

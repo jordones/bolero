@@ -13,22 +13,20 @@ class ShareViewController: SLComposeServiceViewController {
 
     private var isValidMusicUrl: Bool = false
     private static let validHosts = ["open.spotify.com", "music.apple.com"]
-    private var songPreview: LPLinkView? = nil
+    private var authToken: String? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let defaults = UserDefaults(suiteName: "group.bolero")
-        let token = defaults?.string(forKey: "access_token") ?? nil
-        print(token)
-        if token != nil {
-          self.title = "auth: yes"
-          self.textView.text = token
+        authToken = defaults?.string(forKey: "access_token") ?? nil
+      
+        if authToken == nil || authToken == "" {
+          self.textView.text = "Please sign in through the Bolero app :)"
+          self.textView.isEditable = false
         } else {
-          self.title = "auth: no"
-          self.textView.text = "no token"
+          self.title = "Share song!"
+          self.handleSharedLink()
         }
-//        self.title = "Share song!"
-//        self.handleSharedLink()
     }
   
     override func isContentValid() -> Bool {
@@ -93,5 +91,9 @@ class ShareViewController: SLComposeServiceViewController {
         linkPreview.frame = CGRect(x: 0, y: 0, width: viewWidth, height: 100)
       }
     }
+  }
+  
+  private func postSongLink(_ link: string) {
+    
   }
 }
