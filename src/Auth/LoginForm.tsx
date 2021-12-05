@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Section from '../Common/Section';
 import useAuth, { setAuthProps } from './useAuth';
 
 const signIn = async (
@@ -54,22 +55,40 @@ const signIn = async (
   }
 };
 
+export const LogoutForm = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+  const style = styles(isDarkMode);
+  const { isAuthenticated, setAuth, userId } = useAuth();
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  return (
+    <Fragment>
+      <Section title="Sign out" />
+      <Text style={style.text}>{`user id: ${userId}`}</Text>
+      <Button title="logout" onPress={() => setAuth()} />
+    </Fragment>
+  );
+};
+
 const LoginForm = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const style = styles(isDarkMode);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { isAuthenticated, setAuth, userId } = useAuth();
+  const { isAuthenticated, setAuth } = useAuth();
+
+  if (isAuthenticated) {
+    return null;
+  }
 
   return (
-    <View style={style.view}>
-      <Text>{email}</Text>
-      {isAuthenticated ? (
-        <Fragment>
-          <Text style={style.text}>{`user id: ${userId}`}</Text>
-          <Button title="logout" onPress={() => setAuth()} />
-        </Fragment>
-      ) : (
+    <Fragment>
+      <Section title="Sign in" />
+      <View style={style.view}>
+        <Text>{email}</Text>
         <Fragment>
           <TextInput
             style={style.input}
@@ -88,8 +107,8 @@ const LoginForm = () => {
             onPress={() => signIn({ email, password }, setAuth)}
           />
         </Fragment>
-      )}
-    </View>
+      </View>
+    </Fragment>
   );
 };
 
