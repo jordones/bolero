@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,12 +16,10 @@ import {
   View,
   TextInput,
   Button,
-  NativeModules,
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-
-const { SharedStorage } = NativeModules;
+import useAuth, { setAuthProps } from './useAuth';
 
 const signIn = async (
   {
@@ -31,7 +29,7 @@ const signIn = async (
     email: string;
     password: string;
   },
-  callback: (token: string) => void,
+  callback: (props: setAuthProps) => void,
 ) => {
   const payload = {
     email,
@@ -52,28 +50,8 @@ const signIn = async (
   if (result.status === 200) {
     const data = await result.json();
     console.log(data);
-    // token
-    SharedStorage.setString('access_token', data.idToken ?? '');
-    SharedStorage.getString(
-      'access_token',
-      () => {},
-      () => {},
-    );
-    // user id
-    SharedStorage.setString('user_id', data.localId ?? '');
-    SharedStorage.getString('user_id', callback, () => {});
+    callback({ token: data.idToken, id: data.localId });
   }
-};
-
-const logout = (callback: (token: string) => void) => {
-  SharedStorage.setString('access_token', '');
-  SharedStorage.getString(
-    'access_token',
-    () => {},
-    () => {},
-  );
-  SharedStorage.setString('user_id', '');
-  SharedStorage.getString('user_id', callback, () => {});
 };
 
 const LoginForm = () => {
@@ -81,19 +59,15 @@ const LoginForm = () => {
   const style = styles(isDarkMode);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [auth, setAuth] = useState('');
-
-  useEffect(() => {
-    SharedStorage.getString('user_id', setAuth, () => {});
-  }, []);
+  const { isAuthenticated, setAuth, userId } = useAuth();
 
   return (
     <View style={style.view}>
       <Text>{email}</Text>
-      {auth ? (
+      {isAuthenticated ? (
         <Fragment>
-          <Text style={style.text}>{`user id: ${auth}`}</Text>
-          <Button title="logout" onPress={() => logout(setAuth)} />
+          <Text style={style.text}>{`user id: ${userId}`}</Text>
+          <Button title="logout" onPress={() => setAuth()} />
         </Fragment>
       ) : (
         <Fragment>
