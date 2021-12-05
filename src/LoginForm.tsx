@@ -51,14 +51,29 @@ const signIn = async (
 
   if (result.status === 200) {
     const data = await result.json();
-    SharedStorage.setString('access_token', data.idToken ?? 'nil');
-    SharedStorage.getString('access_token', callback, () => {});
+    console.log(data);
+    // token
+    SharedStorage.setString('access_token', data.idToken ?? '');
+    SharedStorage.getString(
+      'access_token',
+      () => {},
+      () => {},
+    );
+    // user id
+    SharedStorage.setString('user_id', data.localId ?? '');
+    SharedStorage.getString('user_id', callback, () => {});
   }
 };
 
 const logout = (callback: (token: string) => void) => {
   SharedStorage.setString('access_token', '');
-  SharedStorage.getString('access_token', callback, () => {});
+  SharedStorage.getString(
+    'access_token',
+    () => {},
+    () => {},
+  );
+  SharedStorage.setString('user_id', '');
+  SharedStorage.getString('user_id', callback, () => {});
 };
 
 const LoginForm = () => {
@@ -70,7 +85,7 @@ const LoginForm = () => {
   const [auth, setAuth] = useState('');
 
   useEffect(() => {
-    SharedStorage.getString('access_token', setAuth, () => {});
+    SharedStorage.getString('user_id', setAuth, () => {});
   }, []);
 
   return (
@@ -79,7 +94,7 @@ const LoginForm = () => {
         backgroundColor: isDarkMode ? Colors.black : Colors.white,
       }}>
       <Text>{email}</Text>
-      {!!auth && auth != 'nil' ? (
+      {!!auth && auth !== 'nil' ? (
         <>
           <Text>{`user id: ${auth}`}</Text>
           <Button title="logout" onPress={() => logout(setAuth)} />

@@ -14,12 +14,15 @@ class ShareViewController: SLComposeServiceViewController {
     private var isValidMusicUrl: Bool = false
     private static let validHosts = ["open.spotify.com", "music.apple.com"]
     private var authToken: String? = nil
+    private var userId: String? = nil
+    private var songLink: String? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let defaults = UserDefaults(suiteName: "group.bolero")
         authToken = defaults?.string(forKey: "access_token") ?? nil
-      
+        userId = defaults?.string(forKey: "user_id") ?? nil
+
         if authToken == nil || authToken == "" {
           self.textView.text = "Please sign in through the Bolero app :)"
           self.textView.isEditable = false
@@ -37,7 +40,9 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func didSelectPost() {
         // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
-    
+        if let song = self.songLink {
+          self.postSongLink(song, self.textView.text)
+        }
         // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
         self.extensionContext!.completeRequest(returningItems: [], completionHandler: nil)
     }
@@ -58,6 +63,7 @@ class ShareViewController: SLComposeServiceViewController {
           if let url = result as? URL, let host = url.host {
             if ShareViewController.validHosts.contains(host) {
               self.isValidMusicUrl = true
+              self.songLink = url.absoluteString
               self.fetchPreview(for: url.absoluteString)
               self.validateContent()
             } else {
@@ -93,7 +99,22 @@ class ShareViewController: SLComposeServiceViewController {
     }
   }
   
-  private func postSongLink(_ link: string) {
+  private func postSongLink(_ link: String, _ comment: String) {
+    guard let userId = self.userId else {
+      return
+    }
+    let url = URL(string: "https://bolero-app-default-rtdb.firebaseio.com/feed/\(userId).json")!
+    let payload: [String: String?] = [
+      "post": link,
+      "comment": comment
+    ]
+    let serializedPayload = try? JSONSerialization.data(withJSONObject: payload)
+    var request = URLRequest(url: url)
+    // request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.httpMethod = "POST"
+    request.httpBody = serializedPayload
     
+    let task = URLSession.shared.dataTask(with: request)
+    task.resume()
   }
 }
