@@ -17,6 +17,7 @@
 		F720F1D6275AE01B008620A8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F720F1D5275AE01B008620A8 /* ShareViewController.swift */; };
 		F720F1D9275AE01B008620A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F720F1D7275AE01B008620A8 /* MainInterface.storyboard */; };
 		F720F1DD275AE01B008620A8 /* Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F720F1D3275AE01B008620A8 /* Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F720F1E8275C2ACE008620A8 /* SharedStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F720F1E7275C2ACE008620A8 /* SharedStorage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		F720F1DA275AE01B008620A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F720F1E2275C273E008620A8 /* bolero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = bolero.entitlements; path = bolero/bolero.entitlements; sourceTree = "<group>"; };
 		F720F1E3275C2805008620A8 /* Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share.entitlements; sourceTree = "<group>"; };
+		F720F1E6275C2ABB008620A8 /* SharedStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedStorage.h; sourceTree = "<group>"; };
+		F720F1E7275C2ACE008620A8 /* SharedStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharedStorage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +126,7 @@
 		13B07FAE1A68108700A75B9A /* bolero */ = {
 			isa = PBXGroup;
 			children = (
+				F720F1E5275C2A98008620A8 /* SharedStorage */,
 				F720F1E2275C273E008620A8 /* bolero.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -197,6 +201,15 @@
 				F720F1DA275AE01B008620A8 /* Info.plist */,
 			);
 			path = Share;
+			sourceTree = "<group>";
+		};
+		F720F1E5275C2A98008620A8 /* SharedStorage */ = {
+			isa = PBXGroup;
+			children = (
+				F720F1E6275C2ABB008620A8 /* SharedStorage.h */,
+				F720F1E7275C2ACE008620A8 /* SharedStorage.m */,
+			);
+			path = SharedStorage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -495,6 +508,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				F720F1E8275C2ACE008620A8 /* SharedStorage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

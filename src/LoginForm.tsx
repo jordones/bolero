@@ -8,7 +8,7 @@
  * @format
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -16,25 +16,30 @@ import {
   View,
   TextInput,
   Button,
-  Settings,
+  NativeModules,
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-const signIn = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}, callback: (token: string) => void) => {
+const { SharedStorage } = NativeModules;
+
+const signIn = async (
+  {
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  },
+  callback: (token: string) => void,
+) => {
   const payload = {
     email,
     password,
     returnSecureToken: true,
   };
 
-  const apiKey = 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY';
+  const apiKey = '1234Abcd';
   const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
   const result = await fetch(url, {
     method: 'POST',
@@ -46,8 +51,8 @@ const signIn = async ({
 
   if (result.status === 200) {
     const data = await result.json();
-    Settings.set({ access_token: data.idToken ?? 'nil' });
-    callback(Settings.get('access_token'));
+    SharedStorage.setString('access_token', data.idToken ?? 'nil');
+    SharedStorage.getString('access_token', callback, () => {});
   }
 };
 
@@ -57,7 +62,11 @@ const LoginForm = () => {
   // State (TEMP)
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [auth, setAuth] = useState(Settings.get('access_token'));
+  const [auth, setAuth] = useState('');
+
+  useEffect(() => {
+    SharedStorage.getString('access_token', setAuth, () => {});
+  }, []);
 
   return (
     <View
