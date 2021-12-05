@@ -56,8 +56,6 @@ const signIn = async (
 };
 
 export const LogoutForm = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const style = styles(isDarkMode);
   const { isAuthenticated, setAuth, userId } = useAuth();
 
   if (!isAuthenticated) {
@@ -66,8 +64,7 @@ export const LogoutForm = () => {
 
   return (
     <Fragment>
-      <Section title="Sign out" />
-      <Text style={style.text}>{`user id: ${userId}`}</Text>
+      <Section title="Sign out">{`user id: ${userId}`}</Section>
       <Button title="logout" onPress={() => setAuth()} />
     </Fragment>
   );
