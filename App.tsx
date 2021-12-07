@@ -18,7 +18,9 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { AuthProvider } from './src/Auth/Auth';
 import LoginForm, { LogoutForm } from './src/Auth/LoginForm';
+import ProfileHeader from './src/Profile/ProfileHeader';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,20 +30,23 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <LoginForm />
-          <LogoutForm />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <AuthProvider>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}>
+          <View
+            style={{
+              backgroundColor: isDarkMode ? Colors.black : Colors.white,
+            }}>
+            <LoginForm />
+            <ProfileHeader />
+            <LogoutForm />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </AuthProvider>
   );
 };
 

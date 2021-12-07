@@ -20,7 +20,8 @@ import {
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Section from '../Common/Section';
-import useAuth, { setAuthProps } from './useAuth';
+import { useAuthState } from './Auth';
+import { setAuthProps } from './useAuth';
 
 const signIn = async (
   {
@@ -56,7 +57,7 @@ const signIn = async (
 };
 
 export const LogoutForm = () => {
-  const { isAuthenticated, setAuth, userId } = useAuth();
+  const { isAuthenticated, setAuth, userId } = useAuthState();
 
   if (!isAuthenticated) {
     return null;
@@ -75,7 +76,7 @@ const LoginForm = () => {
   const style = styles(isDarkMode);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { isAuthenticated, setAuth } = useAuth();
+  const { isAuthenticated, setAuth } = useAuthState();
 
   if (isAuthenticated) {
     return null;

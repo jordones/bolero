@@ -14,11 +14,13 @@ const useAuth = () => {
   const [userId, setUserId] = useState<string | undefined>(undefined);
 
   const getAuth = () => {
+    console.log('getting auth');
     SharedStorage.getString('access_token', noOp, noOp);
     SharedStorage.getString('user_id', setUserId, noOp);
   };
 
   const setAuth = ({ token, id }: setAuthProps = { token: '', id: '' }) => {
+    console.log('setting auth ', id);
     SharedStorage.setString('access_token', token);
     SharedStorage.setString('user_id', id);
     getAuth();
@@ -31,6 +33,7 @@ const useAuth = () => {
 
   // Update isAuthenticated based on whether or not we have a userId
   useEffect(() => {
+    console.log('userId changed ', userId);
     setIsAuthenticated(!!userId);
   }, [userId]);
 
