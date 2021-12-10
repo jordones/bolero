@@ -19,7 +19,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let defaults = UserDefaults(suiteName: "group.bolero")
+        let defaults = UserDefaults(suiteName: "group.bolero.ext")
         authToken = defaults?.string(forKey: "access_token") ?? nil
         userId = defaults?.string(forKey: "user_id") ?? nil
 
