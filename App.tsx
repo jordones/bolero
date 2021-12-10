@@ -16,11 +16,25 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
+import { initializeApp, getApps } from 'firebase/app';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { AuthProvider } from './src/Auth/Auth';
 import LoginForm, { LogoutForm } from './src/Auth/LoginForm';
 import ProfileHeader from './src/Profile/ProfileHeader';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
+  authDomain: 'bolero-app.firebaseapp.com',
+  databaseURL: 'https://bolero-app-default-rtdb.firebaseio.com',
+  projectId: 'bolero-app',
+  storageBucket: 'bolero-app.appspot.com',
+  messagingSenderId: '436695980720',
+  appId: '1:436695980720:web:ff75c8c5e79be4f37c3975',
+};
+
+if (getApps().length === 0) {
+  initializeApp(firebaseConfig);
+}
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';

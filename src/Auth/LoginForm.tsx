@@ -17,13 +17,14 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-
+import * as firebaseAuth from 'firebase/auth';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Section from '../Common/Section';
 import { useAuthState } from './Auth';
 import { setAuthProps } from './useAuth';
+import { UserCredential } from 'firebase/auth';
 
-const signIn = async (
+async function signIn(
   {
     email,
     password,
@@ -32,29 +33,20 @@ const signIn = async (
     password: string;
   },
   callback: (props: setAuthProps) => void,
-) => {
-  const payload = {
-    email,
-    password,
-    returnSecureToken: true,
-  };
-
-  const apiKey = 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY';
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
-  const result = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (result.status === 200) {
-    const data = await result.json();
-    console.log(data);
-    callback({ token: data.idToken, id: data.localId });
+) {
+  try {
+    const result: UserCredential =
+      await firebaseAuth.signInWithEmailAndPassword(
+        firebaseAuth.getAuth(),
+        email,
+        password,
+      );
+    const token = await result.user.getIdToken();
+    callback({ token, id: result.user.uid });
+  } catch (error) {
+    console.log(error);
   }
-};
+}
 
 export const LogoutForm = () => {
   const { isAuthenticated, setAuth, userId } = useAuthState();
