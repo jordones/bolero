@@ -1,13 +1,8 @@
 import { collection, Firestore, getDocs } from 'firebase/firestore';
 import { Auth } from 'firebase/auth';
-
-enum Collections {
-  posts = 'posts',
-  following = 'folowing',
-}
+import { Collections } from '../Collections';
 
 export default function (db: Firestore, auth: Auth) {
-  // const getPostCollection = () => collection(db, Collections.posts);
   const getPostCollectionById = (userId: string) =>
     collection(db, `${Collections.posts}/${userId}/userPosts`);
   const getUserPostCollection = () =>
