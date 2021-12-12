@@ -11,15 +11,15 @@ export const PostFeed: React.FC = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const postsz = await postService?.getUserPosts();
-        console.log(postsz);
-        setPosts(postsz ?? []);
+        const loadedPosts = await postService.getUserPosts();
+        console.log(loadedPosts);
+        setPosts(loadedPosts ?? []);
       } catch (e) {
         console.warn(e);
       }
     };
 
-    console.log('loading psots');
+    console.log('loading posts');
 
     loadPosts();
   }, [postService]);
