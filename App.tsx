@@ -21,6 +21,8 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { AuthProvider } from './src/Auth/Auth';
 import LoginForm, { LogoutForm } from './src/Auth/LoginForm';
 import ProfileHeader from './src/Profile/ProfileHeader';
+import { ServiceProvider } from './src/Service/ServiceProvider';
+import { PostFeed } from './src/Feed/PostFeed';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
@@ -45,21 +47,24 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
-            <LoginForm />
-            <ProfileHeader />
-            <LogoutForm />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+      <ServiceProvider>
+        <SafeAreaView style={backgroundStyle}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={backgroundStyle}>
+            <View
+              style={{
+                backgroundColor: isDarkMode ? Colors.black : Colors.white,
+              }}>
+              <LoginForm />
+              <ProfileHeader />
+              <LogoutForm />
+              <PostFeed />
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      </ServiceProvider>
     </AuthProvider>
   );
 };
