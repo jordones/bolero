@@ -1,6 +1,13 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, useColorScheme, View } from 'react-native';
+import {
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import {
   useFollowService,
   usePostService,
@@ -51,10 +58,13 @@ export const PostFeed: React.FC = () => {
     <View style={style.wrapper}>
       <Text style={style.header}>Posts</Text>
       {posts?.map((e, key) => (
-        <View key={key} style={style.cell}>
+        <TouchableOpacity
+          key={key}
+          style={style.cell}
+          onPress={() => Linking.openURL(e.songUrl)}>
           <Text style={style.header}>{e.name ?? 'Me'}</Text>
           <Text style={style.body}>{e.comment}</Text>
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );
