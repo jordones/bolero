@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import PostService from './Posts/service';
@@ -20,9 +20,9 @@ export const ServiceContext = React.createContext<ContextProps>({
 export const ServiceProvider: React.FC = ({ children }) => {
   const auth = getAuth();
   const db = getFirestore();
-  const postService = useMemo(() => PostService(db, auth), [db, auth]);
-  const followService = useMemo(() => FollowService(db, auth), [db, auth]);
-  const usersService = useMemo(() => UsersService(db, auth), [db, auth]);
+  const postService = PostService(db, auth);
+  const followService = FollowService(db, auth);
+  const usersService = UsersService(db, auth);
 
   return (
     <ServiceContext.Provider

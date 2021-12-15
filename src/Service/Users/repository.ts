@@ -28,7 +28,13 @@ export default function (db: Firestore, auth: Auth) {
       getDocs(getUserCollectionById(userId)),
     getMultiUserDataByIds: async (ids: string[]) =>
       getDocs(query(getUserCollection(), where(documentId(), 'in', ids))),
-    getUserData: async () => getDocs(getUserDataCollection()),
+    getUserData: async () =>
+      getDocs(
+        query(
+          getUserCollection(),
+          where(documentId(), '==', auth.currentUser!.uid),
+        ),
+      ),
     setUserData: async (payload: UserProfile) =>
       addDoc(getUserDataCollection(), payload),
   };
