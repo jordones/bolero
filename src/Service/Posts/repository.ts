@@ -9,6 +9,8 @@ export default function (db: Firestore, auth: Auth) {
     getPostCollectionById(auth.currentUser!.uid);
 
   const repository = {
+    getMultiPostsByUserIds: async (ids: string[]) =>
+      Promise.all(ids.map(id => getDocs(getPostCollectionById(id)))),
     getPostsByUserId: async (userId: string) =>
       getDocs(getPostCollectionById(userId)),
     getUserPosts: async () => getDocs(getUserPostCollection()),
