@@ -8,7 +8,7 @@ export default function (db: Firestore, auth: Auth) {
   const service = {
     getPosts: async (userId: string) => {
       const posts = await repository.getPostsByUserId(userId);
-      return Promise.all(posts.docs.map(post => post.data()));
+      return Promise.all(posts.docs.map(post => ({ userId, ...post.data() })));
     },
     getUserPosts: async () => {
       const posts = await repository.getUserPosts();

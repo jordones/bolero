@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  documentId,
   Firestore,
   getDocs,
   query,
@@ -25,6 +26,8 @@ export default function (db: Firestore, auth: Auth) {
       getDocs(query(getUserCollection(), where('name', '>=', userName))),
     getUserDataById: async (userId: string) =>
       getDocs(getUserCollectionById(userId)),
+    getMultiUserDataByIds: async (ids: string[]) =>
+      getDocs(query(getUserCollection(), where(documentId(), 'in', ids))),
     getUserData: async () => getDocs(getUserDataCollection()),
     setUserData: async (payload: UserProfile) =>
       addDoc(getUserDataCollection(), payload),
