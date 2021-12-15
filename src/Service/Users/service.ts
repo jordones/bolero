@@ -8,7 +8,9 @@ export default function (db: Firestore, auth: Auth) {
   const service = {
     searchUserByName: async (userName: string) => {
       const data = await repository.getUsersByName(userName);
-      return await Promise.all(data.docs.map(el => el.data()));
+      return await Promise.all(
+        data.docs.map(el => ({ id: el.id, ...el.data() })),
+      );
     },
     getUserProfileById: async (userId: string) => {
       const data = await repository.getUserDataById(userId);

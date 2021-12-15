@@ -23,6 +23,7 @@ import LoginForm, { LogoutForm } from './src/Auth/LoginForm';
 import ProfileHeader from './src/Profile/ProfileHeader';
 import { ServiceProvider } from './src/Service/ServiceProvider';
 import { PostFeed } from './src/Feed/PostFeed';
+import { SearchBar } from './src/Search/SearchBar';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
@@ -61,6 +62,7 @@ const App = () => {
               <ProfileHeader />
               <LogoutForm />
               <PostFeed />
+              <SearchBar />
             </View>
           </ScrollView>
         </SafeAreaView>

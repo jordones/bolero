@@ -16,7 +16,7 @@ export interface UserProfile {
 export default function (db: Firestore, auth: Auth) {
   const getUserCollection = () => collection(db, Collections.users);
   const getUserCollectionById = (id: string) =>
-    collection(db, `${Collections.users}/${id}/profile`);
+    collection(db, `${Collections.users}/${id}`);
   const getUserDataCollection = () =>
     getUserCollectionById(auth.currentUser!.uid);
 
