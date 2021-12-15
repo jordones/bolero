@@ -1,19 +1,28 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { usePostService } from '../Service/ServiceProvider';
+import { useFollowService, usePostService } from '../Service/ServiceProvider';
 
 export const PostFeed: React.FC = () => {
   const [posts, setPosts] = useState<DocumentData[]>([]);
   const postService = usePostService();
+  const followService = useFollowService();
   const style = styles(true);
 
   useEffect(() => {
     const loadPosts = async () => {
       try {
+        const following = await followService.getUserFollowing();
         const loadedPosts = await postService.getUserPosts();
-        console.log(loadedPosts);
-        setPosts(loadedPosts ?? []);
+        // TODO: instead of looping the query, create a compound query for multiple IDs
+        const loadedFollowingPosts = await Promise.all(
+          following.map(follow =>
+            postService.getPosts(follow.userId as unknown as string),
+          ),
+        );
+        setPosts(
+          [...loadedPosts, ...loadedFollowingPosts.flatMap(x => x)] ?? [],
+        );
       } catch (e) {
         console.warn(e);
       }
@@ -22,7 +31,7 @@ export const PostFeed: React.FC = () => {
     console.log('loading posts');
 
     loadPosts();
-  }, [postService]);
+  }, [postService, followService]);
 
   return (
     <View style={style.wrapper}>
