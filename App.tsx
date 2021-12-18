@@ -13,6 +13,7 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
+  StyleSheet,
   useColorScheme,
   View,
 } from 'react-native';
@@ -24,6 +25,7 @@ import ProfileHeader from './src/Profile/ProfileHeader';
 import { ServiceProvider } from './src/Service/ServiceProvider';
 import { PostFeed } from './src/Feed/PostFeed';
 import { SearchBar } from './src/Search/SearchBar';
+import { is } from '@babel/types';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
@@ -42,49 +44,53 @@ if (getApps().length === 0) {
 const Root = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { isAuthenticated } = useAuthState();
+  const style = styles(isDarkMode);
+
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
   if (!isAuthenticated) {
     return (
-      <SafeAreaView style={backgroundStyle}>
+      <SafeAreaView style={style.wrapper}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={backgroundStyle}>
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
+          <View style={style.container}>
             <LoginForm />
           </View>
         </ScrollView>
       </SafeAreaView>
     );
   }
+
   return (
     <ServiceProvider>
-      <SafeAreaView style={backgroundStyle}>
+      <SafeAreaView style={style.wrapper}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
-            <LoginForm />
-            <ProfileHeader />
-            <LogoutForm />
-            <PostFeed />
-            <SearchBar />
-          </View>
-        </ScrollView>
+        <View style={style.container}>
+          <ProfileHeader />
+          <PostFeed />
+          <SearchBar />
+          <LogoutForm />
+        </View>
       </SafeAreaView>
     </ServiceProvider>
   );
 };
+
+const styles = (isDarkMode: boolean) =>
+  StyleSheet.create({
+    wrapper: {
+      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+      flex: 1,
+    },
+    container: {
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      flex: 1,
+    },
+  });
 
 const App = () => {
   return (
