@@ -1,27 +1,21 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import {
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import {
   useFollowService,
   usePostService,
   useUsersService,
 } from '../Service/ServiceProvider';
+import { useTheme } from '../Theme/Theme';
+import { Theme } from '../Theme/values';
+import { Song } from './Song';
 
 export const PostFeed: React.FC = () => {
   const [posts, setPosts] = useState<DocumentData[]>([]);
   const postService = usePostService();
   const followService = useFollowService();
   const usersService = useUsersService();
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const style = styles(isDarkMode);
+  const style = useTheme(styleCreator);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -56,43 +50,36 @@ export const PostFeed: React.FC = () => {
 
   return (
     <View style={style.wrapper}>
-      <Text style={style.header}>Posts</Text>
-      {posts?.map((e, key) => (
-        <TouchableOpacity
+      {posts.map((e, key) => (
+        <Song
           key={key}
-          style={style.cell}
-          onPress={() => Linking.openURL(e.songUrl)}>
-          <Text style={style.header}>{e.name ?? 'Me'}</Text>
-          <Text style={style.body}>{e.comment}</Text>
-        </TouchableOpacity>
+          author={e.name ?? 'Me'}
+          post={e.comment}
+          songTitle={'This is a song'}
+          artist={'Wanjo'}
+          album={'The Wanjo Album'}
+          songUrl={'xyz'}
+          imageUrl={'xyz'}
+          isLiked={true}
+        />
       ))}
     </View>
   );
 };
 
-const styles = (isDarkMode: boolean) =>
-  StyleSheet.create({
-    wrapper: {
-      backgroundColor: isDarkMode ? 'black' : 'white',
-      flex: 1,
-      display: 'flex',
-    },
-    cell: {
-      borderRadius: 6,
-      marginHorizontal: 4,
-      marginVertical: 4,
-      paddingHorizontal: 4,
-      paddingVertical: 4,
-      borderColor: isDarkMode ? 'white' : 'black',
-      borderWidth: 1,
-    },
-    header: {
-      fontSize: 16,
-      fontWeight: '500',
-      color: isDarkMode ? 'white' : 'black',
-    },
-    body: {
-      fontSize: 12,
-      color: isDarkMode ? 'white' : 'black',
-    },
-  });
+const styleCreator = (theme: Theme) => ({
+  wrapper: {
+    flex: 1,
+    display: 'flex',
+    paddingHorizontal: 24,
+  } as ViewStyle,
+  header: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: theme.color.text,
+  },
+  body: {
+    fontSize: 12,
+    color: theme.color.text,
+  },
+});

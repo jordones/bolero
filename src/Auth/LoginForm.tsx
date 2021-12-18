@@ -9,18 +9,12 @@
  */
 
 import React, { useState, Fragment } from 'react';
-import {
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  TextInput,
-  Button,
-} from 'react-native';
+import { TextInput, Button } from 'react-native';
 import * as firebaseAuth from 'firebase/auth';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Section from '../Common/Section';
 import { useAuthState } from './Auth';
+import { useTheme } from '../Theme/Theme';
+import { Theme } from '../Theme/values';
 
 async function signIn({
   email,
@@ -56,8 +50,7 @@ export const LogoutForm = () => {
 };
 
 const LoginForm = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const style = styles(isDarkMode);
+  const style = useTheme(styleCreator);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const { isAuthenticated } = useAuthState();
@@ -69,44 +62,42 @@ const LoginForm = () => {
   return (
     <Fragment>
       <Section title="Sign in" />
-      <View style={style.view}>
-        <Text>{email}</Text>
-        <Fragment>
-          <TextInput
-            style={style.input}
-            placeholder="email"
-            onChangeText={setEmail}
-            secureTextEntry={false}
-          />
-          <TextInput
-            style={style.input}
-            placeholder="password"
-            secureTextEntry
-            onChangeText={setPassword}
-          />
-          <Button title="submit" onPress={() => signIn({ email, password })} />
-        </Fragment>
-      </View>
+      <Fragment>
+        <TextInput
+          style={style.input}
+          placeholder="email"
+          onChangeText={setEmail}
+          placeholderTextColor={style.placeholder.color}
+          secureTextEntry={false}
+        />
+        <TextInput
+          style={style.input}
+          placeholder="password"
+          secureTextEntry
+          placeholderTextColor={style.placeholder.color}
+          onChangeText={setPassword}
+        />
+        <Button title="submit" onPress={() => signIn({ email, password })} />
+      </Fragment>
     </Fragment>
   );
 };
 
-const styles = (darkMode: boolean) =>
-  StyleSheet.create({
-    view: {
-      backgroundColor: darkMode ? Colors.black : Colors.white,
-    },
-    input: {
-      borderColor: darkMode ? Colors.white : Colors.black,
-      color: darkMode ? Colors.white : Colors.black,
-      borderWidth: 1,
-      height: 40,
-      marginVertical: 4,
-      marginHorizontal: 8,
-    },
-    text: {
-      color: darkMode ? Colors.white : Colors.black,
-    },
-  });
+const styleCreator = (theme: Theme) => ({
+  input: {
+    borderColor: theme.color.accent,
+    color: theme.color.text,
+    borderWidth: 1,
+    height: 40,
+    marginVertical: 4,
+    marginHorizontal: 8,
+  },
+  text: {
+    color: theme.color.text,
+  },
+  placeholder: {
+    color: theme.color.placeholder,
+  },
+});
 
 export default LoginForm;

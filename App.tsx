@@ -17,13 +17,15 @@ import {
   View,
 } from 'react-native';
 import { initializeApp, getApps } from 'firebase/app';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { AuthProvider, useAuthState } from './src/Auth/Auth';
 import LoginForm, { LogoutForm } from './src/Auth/LoginForm';
 import ProfileHeader from './src/Profile/ProfileHeader';
 import { ServiceProvider } from './src/Service/ServiceProvider';
 import { PostFeed } from './src/Feed/PostFeed';
 import { SearchBar } from './src/Search/SearchBar';
+import Section from './src/Common/Section';
+import { ThemeProvider, useTheme } from './src/Theme/Theme';
+import { Theme } from './src/Theme/values';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
@@ -42,43 +44,37 @@ if (getApps().length === 0) {
 const Root = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const { isAuthenticated } = useAuthState();
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  const style = useTheme(stylefn);
 
   if (!isAuthenticated) {
     return (
-      <SafeAreaView style={backgroundStyle}>
+      <SafeAreaView style={style.wrapper}>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
+          style={style.container}>
+          <View style={style.container}>
             <LoginForm />
           </View>
         </ScrollView>
       </SafeAreaView>
     );
   }
+
   return (
     <ServiceProvider>
-      <SafeAreaView style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <SafeAreaView style={style.wrapper}>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
-          style={backgroundStyle}>
-          <View
-            style={{
-              backgroundColor: isDarkMode ? Colors.black : Colors.white,
-            }}>
-            <LoginForm />
+          style={style.container}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <View style={style.container}>
             <ProfileHeader />
-            <LogoutForm />
+            <Section title="Posts" />
             <PostFeed />
+            <Section title="Search" />
             <SearchBar />
+            <LogoutForm />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -86,11 +82,23 @@ const Root = () => {
   );
 };
 
+const stylefn = (theme: Theme) => ({
+  wrapper: {
+    backgroundColor: theme.color.background,
+    flex: 1,
+  },
+  container: {
+    backgroundColor: theme.color.backdrop,
+  },
+});
+
 const App = () => {
   return (
-    <AuthProvider>
-      <Root />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Root />
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 

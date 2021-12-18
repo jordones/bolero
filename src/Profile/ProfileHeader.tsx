@@ -3,11 +3,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  useColorScheme,
   View,
+  ViewStyle,
 } from 'react-native';
 import { useAuthState } from '../Auth/Auth';
 import { useUsersService } from '../Service/ServiceProvider';
+import { useTheme } from '../Theme/Theme';
+import { Theme } from '../Theme/values';
 
 const ProfileCircle = () => <View style={circleStyle.circle} />;
 
@@ -26,9 +28,7 @@ const ProfileHeader = () => {
   const { isAuthenticated } = useAuthState();
   const [userName, setUserName] = useState('');
   const usersService = useUsersService();
-  const isDarkMode = useColorScheme() === 'dark';
-  const style = styles(isDarkMode);
-
+  const style = useTheme(styleCreator);
   useEffect(() => {
     const fetchUser = async () => {
       const data = await usersService.getUserProfile();
@@ -44,24 +44,24 @@ const ProfileHeader = () => {
   }
 
   return (
-    <TouchableOpacity style={style.container} onPress={() => {}}>
-      <ProfileCircle />
-      <Text style={style.header}>{userName}</Text>
+    <TouchableOpacity onPress={() => {}}>
+      <View style={style.container}>
+        <ProfileCircle />
+        <Text style={style.header}>{userName}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
 
-const styles = (isDarkMode: boolean) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: 4,
-    },
-    header: {
-      color: isDarkMode ? 'white' : 'black',
-    },
-  });
+const styleCreator = (theme: Theme) => ({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 4,
+  } as ViewStyle,
+  header: {
+    color: theme.color.text,
+  },
+});
 
 export default ProfileHeader;
