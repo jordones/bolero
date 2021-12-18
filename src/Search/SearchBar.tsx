@@ -43,7 +43,6 @@ const resultStyles = (isDarkMode: boolean) =>
   StyleSheet.create({
     cell: {
       borderRadius: 6,
-      marginHorizontal: 4,
       marginVertical: 4,
       paddingHorizontal: 4,
       paddingVertical: 4,
@@ -91,6 +90,7 @@ const styles = (isDarkMode: boolean) =>
   StyleSheet.create({
     wrapper: {
       flex: 1,
+      paddingHorizontal: 24,
     },
     input: {
       borderColor: isDarkMode ? Colors.lighter : Colors.darker,

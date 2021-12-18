@@ -56,7 +56,6 @@ export const PostFeed: React.FC = () => {
 
   return (
     <View style={style.wrapper}>
-      <Text style={style.header}>Posts</Text>
       {posts?.map((e, key) => (
         <TouchableOpacity
           key={key}
@@ -76,10 +75,10 @@ const styles = (isDarkMode: boolean) =>
       backgroundColor: isDarkMode ? 'black' : 'white',
       flex: 1,
       display: 'flex',
+      paddingHorizontal: 24,
     },
     cell: {
       borderRadius: 6,
-      marginHorizontal: 4,
       marginVertical: 4,
       paddingHorizontal: 4,
       paddingVertical: 4,

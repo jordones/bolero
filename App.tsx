@@ -25,6 +25,7 @@ import ProfileHeader from './src/Profile/ProfileHeader';
 import { ServiceProvider } from './src/Service/ServiceProvider';
 import { PostFeed } from './src/Feed/PostFeed';
 import { SearchBar } from './src/Search/SearchBar';
+import Section from './src/Common/Section';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
@@ -70,7 +71,9 @@ const Root = () => {
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <View style={style.container}>
           <ProfileHeader />
+          <Section title="Posts" />
           <PostFeed />
+          <Section title="Search" />
           <SearchBar />
           <LogoutForm />
         </View>
