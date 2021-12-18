@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NativeModules } from 'react-native';
+import { getAuth, onAuthStateChanged, signOut } from '@firebase/auth';
+import { getApp } from '@firebase/app';
 const { SharedStorage } = NativeModules;
 
 export interface setAuthProps {
@@ -7,37 +9,52 @@ export interface setAuthProps {
   id: string;
 }
 
-const noOp = () => {};
-
 const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const app = getApp();
+  const auth = getAuth(app);
   const [userId, setUserId] = useState<string | undefined>(undefined);
+  const [state, setState] = useState({
+    loggedIn: false,
+    loaded: false,
+  });
 
-  const getAuth = () => {
-    SharedStorage.getString('access_token', noOp, noOp);
-    SharedStorage.getString('user_id', setUserId, noOp);
-  };
+  const setStoredAuth = useCallback(
+    ({ token, id }: setAuthProps = { token: '', id: '' }) => {
+      SharedStorage.setString('access_token', token);
+      SharedStorage.setString('user_id', id);
+    },
+    [],
+  );
 
-  const setAuth = ({ token, id }: setAuthProps = { token: '', id: '' }) => {
-    SharedStorage.setString('access_token', token);
-    SharedStorage.setString('user_id', id);
-    getAuth();
-  };
-
-  // On mount fetch currently stored credentials
   useEffect(() => {
-    getAuth();
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      if (!user) {
+        setState({
+          loggedIn: false,
+          loaded: true,
+        });
+        setStoredAuth();
+        setUserId(undefined);
+      } else {
+        console.log('user', user);
+        setState({
+          loggedIn: true,
+          loaded: true,
+        });
+        setUserId(user.uid);
+        setStoredAuth({ token: user.refreshToken, id: user.uid });
+      }
+    });
 
-  // Update isAuthenticated based on whether or not we have a userId
-  useEffect(() => {
-    setIsAuthenticated(!!userId);
-  }, [userId]);
+    return () => {
+      unsubscribe();
+    };
+  }, [auth, setStoredAuth]);
 
   return {
-    isAuthenticated,
     userId,
-    setAuth,
+    signOut: () => signOut(auth),
+    isAuthenticated: state.loggedIn,
   };
 };
 

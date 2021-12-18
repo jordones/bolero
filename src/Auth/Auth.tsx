@@ -1,16 +1,16 @@
 import React from 'react';
-import useAuth, { setAuthProps } from './useAuth';
+import useAuth from './useAuth';
 
 interface ContextProps {
   isAuthenticated: boolean;
   userId: string | undefined;
-  setAuth: (props?: setAuthProps) => void;
+  signOut: () => void;
 }
 
 export const AuthContext = React.createContext<ContextProps>({
   isAuthenticated: false,
   userId: undefined,
-  setAuth: () => {},
+  signOut: () => {},
 });
 
 export const AuthProvider: React.FC = ({ children }) => {
