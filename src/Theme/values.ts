@@ -23,7 +23,7 @@ interface FontWeight {
   light: string;
 }
 
-export interface ContextProps {
+export interface Theme {
   color: Color;
   fontSize: FontSize;
   fontWeight: FontWeight;
@@ -32,12 +32,12 @@ export interface ContextProps {
 export const lightColors: Color = {
   primary: '#',
   accent: '#',
-  background: '#',
+  background: '#fff',
   surface: '#',
-  text: '#',
+  text: '#000',
   disabled: '#',
   placeholder: '#',
-  backdrop: '#',
+  backdrop: '#eee',
   onSurface: '#',
   notification: '#',
 };
@@ -45,12 +45,12 @@ export const lightColors: Color = {
 export const darkColors: Color = {
   primary: '#',
   accent: '#',
-  background: '#',
+  background: '#000',
   surface: '#',
-  text: '#',
+  text: '#fff',
   disabled: '#',
   placeholder: '#',
-  backdrop: '#',
+  backdrop: '#111',
   onSurface: '#',
   notification: '#',
 };

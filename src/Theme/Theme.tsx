@@ -1,14 +1,14 @@
 import React from 'react';
-import { useColorScheme } from 'react-native';
+import { StyleSheet, useColorScheme } from 'react-native';
 import {
   lightColors,
   darkColors,
   fontWeights,
   fontSizes,
-  ContextProps,
+  Theme,
 } from './values';
 
-export const ThemeContext = React.createContext<ContextProps>({
+export const ThemeContext = React.createContext<Theme>({
   color: lightColors,
   fontSize: fontSizes,
   fontWeight: fontWeights,
@@ -28,11 +28,13 @@ export const ThemeProvider: React.FC = ({ children }) => {
   );
 };
 
-export const useTheme = () => {
+type StyleCreator<T> = (theme: Theme) => T;
+
+export function useTheme<Type>(styleFn: StyleCreator<Type>): Type {
   const context = React.useContext(ThemeContext);
   if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
 
-  return context;
-};
+  return StyleSheet.create(styleFn(context));
+}
