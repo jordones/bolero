@@ -17,7 +17,7 @@ RCT_EXPORT_METHOD(set:(NSString *)data
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   @try{
-    NSString *suiteName = [NSString stringWithFormat:@"group.bolero.ext"];
+    NSString *suiteName = [NSString stringWithFormat:@"group.bolero"];
     NSUserDefaults *shared = [[NSUserDefaults alloc]initWithSuiteName:suiteName];
     [shared setObject:data forKey:@"data"];
     [shared synchronize];
@@ -33,7 +33,7 @@ RCT_EXPORT_METHOD(getString:(NSString *)key
                   finishCallback:(RCTResponseSenderBlock)finishCallback)
 {
   @try{
-    NSString *suiteName = [NSString stringWithFormat:@"group.bolero.ext"];
+    NSString *suiteName = [NSString stringWithFormat:@"group.bolero"];
     NSUserDefaults *shared = [[NSUserDefaults alloc]initWithSuiteName:suiteName];
     [shared synchronize];
     NSString *data = [shared stringForKey:key];
@@ -53,7 +53,7 @@ RCT_EXPORT_METHOD(setString:(NSString *)key
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
   @try{
-    NSString *suiteName = [NSString stringWithFormat:@"group.bolero.ext"];
+    NSString *suiteName = [NSString stringWithFormat:@"group.bolero"];
     NSUserDefaults *shared = [[NSUserDefaults alloc]initWithSuiteName:suiteName];
     [shared setValue:value forKey:key];
     [shared synchronize];
