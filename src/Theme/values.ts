@@ -35,12 +35,12 @@ export const lightColors: Color = {
   primary: '#',
   accent: '#000',
   background: '#fff',
-  surface: '#',
+  surface: '#536162',
   text: '#000',
   disabled: '#',
   placeholder: '#',
   backdrop: '#eee',
-  onSurface: '#',
+  onSurface: '#424642',
   notification: '#',
 };
 
@@ -48,12 +48,12 @@ export const darkColors: Color = {
   primary: '#',
   accent: '#fff',
   background: '#000',
-  surface: '#',
+  surface: '#424642',
   text: '#fff',
   disabled: '#',
   placeholder: '#',
   backdrop: '#111',
-  onSurface: '#',
+  onSurface: '#536162',
   notification: '#',
 };
 
