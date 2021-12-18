@@ -1,18 +1,12 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import {
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 import {
   useFollowService,
   usePostService,
   useUsersService,
 } from '../Service/ServiceProvider';
+import { Song } from './Song';
 
 export const PostFeed: React.FC = () => {
   const [posts, setPosts] = useState<DocumentData[]>([]);
@@ -56,7 +50,20 @@ export const PostFeed: React.FC = () => {
 
   return (
     <View style={style.wrapper}>
-      {posts?.map((e, key) => (
+      {posts.map((e, key) => (
+        <Song
+          key={key}
+          author={e.name ?? 'Me'}
+          post={e.comment}
+          songTitle={'This is a song'}
+          artist={'Wanjo'}
+          album={'The Wanjo Album'}
+          songUrl={'xyz'}
+          imageUrl={'xyz'}
+          isLiked={true}
+        />
+      ))}
+      {/* {posts?.map((e, key) => (
         <TouchableOpacity
           key={key}
           style={style.cell}
@@ -64,7 +71,7 @@ export const PostFeed: React.FC = () => {
           <Text style={style.header}>{e.name ?? 'Me'}</Text>
           <Text style={style.body}>{e.comment}</Text>
         </TouchableOpacity>
-      ))}
+      ))} */}
     </View>
   );
 };

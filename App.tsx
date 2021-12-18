@@ -68,15 +68,19 @@ const Root = () => {
   return (
     <ServiceProvider>
       <SafeAreaView style={style.wrapper}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <View style={style.container}>
-          <ProfileHeader />
-          <Section title="Posts" />
-          <PostFeed />
-          <Section title="Search" />
-          <SearchBar />
-          <LogoutForm />
-        </View>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <View style={style.container}>
+            <ProfileHeader />
+            <Section title="Posts" />
+            <PostFeed />
+            <Section title="Search" />
+            <SearchBar />
+            <LogoutForm />
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </ServiceProvider>
   );
