@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useFollowService, useUsersService } from '../Service/ServiceProvider';
+import { useTheme } from '../Theme/Theme';
+import { Theme } from '../Theme/values';
 
 interface UserDoc {
   id: string;
@@ -23,8 +17,7 @@ const SearchResults: React.FC<SearchResultProps> = ({
   userList,
   onPressFollow,
 }) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const style = resultStyles(isDarkMode);
+  const style = useTheme(resultStyleCreator);
   return (
     <View>
       {userList.map((user: UserDoc) => (
@@ -39,28 +32,26 @@ const SearchResults: React.FC<SearchResultProps> = ({
   );
 };
 
-const resultStyles = (isDarkMode: boolean) =>
-  StyleSheet.create({
-    cell: {
-      borderRadius: 6,
-      marginVertical: 4,
-      paddingHorizontal: 4,
-      paddingVertical: 4,
-      borderColor: isDarkMode ? 'white' : 'black',
-      borderWidth: 1,
-    },
-    text: {
-      color: isDarkMode ? 'white' : 'black',
-    },
-  });
+const resultStyleCreator = (theme: Theme) => ({
+  cell: {
+    borderRadius: 6,
+    marginVertical: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+    borderColor: theme.color.accent,
+    borderWidth: 1,
+  },
+  text: {
+    color: theme.color.text,
+  },
+});
 
 export const SearchBar = () => {
   const [searchTerm, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<UserDoc[]>([]);
   const userService = useUsersService();
   const followService = useFollowService();
-  const isDarkMode = useColorScheme() === 'dark';
-  const style = styles(isDarkMode);
+  const style = useTheme(styleCreator);
 
   useEffect(() => {
     const fetchUsers = async (search: string) => {
@@ -86,17 +77,16 @@ export const SearchBar = () => {
   );
 };
 
-const styles = (isDarkMode: boolean) =>
-  StyleSheet.create({
-    wrapper: {
-      flex: 1,
-      paddingHorizontal: 24,
-    },
-    input: {
-      borderColor: isDarkMode ? Colors.lighter : Colors.darker,
-      color: isDarkMode ? Colors.white : Colors.black,
-      borderWidth: 1,
-      borderRadius: 6,
-      padding: 8,
-    },
-  });
+const styleCreator = (theme: Theme) => ({
+  wrapper: {
+    flex: 1,
+    paddingHorizontal: 24,
+  },
+  input: {
+    borderColor: theme.color.accent,
+    color: theme.color.text,
+    borderWidth: 1,
+    borderRadius: 6,
+    padding: 8,
+  },
+});

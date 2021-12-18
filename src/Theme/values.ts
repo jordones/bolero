@@ -29,9 +29,11 @@ export interface Theme {
   fontWeight: FontWeight;
 }
 
+export type StyleCreator<T> = (theme: Theme) => T;
+
 export const lightColors: Color = {
   primary: '#',
-  accent: '#',
+  accent: '#000',
   background: '#fff',
   surface: '#',
   text: '#000',
@@ -44,7 +46,7 @@ export const lightColors: Color = {
 
 export const darkColors: Color = {
   primary: '#',
-  accent: '#',
+  accent: '#fff',
   background: '#000',
   surface: '#',
   text: '#fff',

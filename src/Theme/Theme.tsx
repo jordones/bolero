@@ -6,6 +6,7 @@ import {
   fontWeights,
   fontSizes,
   Theme,
+  StyleCreator,
 } from './values';
 
 export const ThemeContext = React.createContext<Theme>({
@@ -27,8 +28,6 @@ export const ThemeProvider: React.FC = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
-
-type StyleCreator<T> = (theme: Theme) => T;
 
 export function useTheme<Type>(styleFn: StyleCreator<Type>): Type {
   const context = React.useContext(ThemeContext);
