@@ -100,21 +100,34 @@ class ShareViewController: SLComposeServiceViewController {
   }
   
   private func postSongLink(_ link: String, _ comment: String) {
-    guard let userId = self.userId else {
+    guard let userId = self.userId, let authToken = self.authToken else {
       return
     }
-    let url = URL(string: "https://bolero-app-default-rtdb.firebaseio.com/feed/\(userId).json")!
-    let payload: [String: String?] = [
-      "post": link,
-      "comment": comment
+    let url = URL(string: "https://firestore.googleapis.com/v1/projects/bolero-app/databases/(default)/documents/posts/\(userId)/userPosts")!
+    let now = Date().ISO8601Format()
+
+    let payload: [String: [String: String]?] = [
+      "songUrl": ["stringValue": link],
+      "comment": ["stringValue": comment],
+      "createdAt": ["timestampValue": now],
+      "updatedAt": ["timestampValue": now],
     ]
-    let serializedPayload = try? JSONSerialization.data(withJSONObject: payload)
+    let fullPayload: Dictionary = [
+      "fields": payload,
+    ] as [String : Any]
+
+    let serializedPayload = try? JSONSerialization.data(withJSONObject: fullPayload)
     var request = URLRequest(url: url)
-    // request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     request.httpMethod = "POST"
     request.httpBody = serializedPayload
     
-    let task = URLSession.shared.dataTask(with: request)
+    let task = URLSession.shared.dataTask(with: request) { data, error, etc in
+      print(data as Any)
+      print(error as Any)
+      print(etc as Any)
+    }
     task.resume()
   }
 }

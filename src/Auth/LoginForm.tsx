@@ -17,47 +17,31 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-
+import * as firebaseAuth from 'firebase/auth';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Section from '../Common/Section';
 import { useAuthState } from './Auth';
-import { setAuthProps } from './useAuth';
 
-const signIn = async (
-  {
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  },
-  callback: (props: setAuthProps) => void,
-) => {
-  const payload = {
-    email,
-    password,
-    returnSecureToken: true,
-  };
-
-  const apiKey = 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY';
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
-  const result = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
-
-  if (result.status === 200) {
-    const data = await result.json();
-    console.log(data);
-    callback({ token: data.idToken, id: data.localId });
+async function signIn({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
+  try {
+    await firebaseAuth.signInWithEmailAndPassword(
+      firebaseAuth.getAuth(),
+      email,
+      password,
+    );
+  } catch (error) {
+    console.log(error);
   }
-};
+}
 
 export const LogoutForm = () => {
-  const { isAuthenticated, setAuth, userId } = useAuthState();
+  const { isAuthenticated, userId, signOut } = useAuthState();
 
   if (!isAuthenticated) {
     return null;
@@ -66,7 +50,7 @@ export const LogoutForm = () => {
   return (
     <Fragment>
       <Section title="Sign out">{`user id: ${userId}`}</Section>
-      <Button title="logout" onPress={() => setAuth()} />
+      <Button title="logout" onPress={signOut} />
     </Fragment>
   );
 };
@@ -76,7 +60,7 @@ const LoginForm = () => {
   const style = styles(isDarkMode);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { isAuthenticated, setAuth } = useAuthState();
+  const { isAuthenticated } = useAuthState();
 
   if (isAuthenticated) {
     return null;
@@ -100,10 +84,7 @@ const LoginForm = () => {
             secureTextEntry
             onChangeText={setPassword}
           />
-          <Button
-            title="submit"
-            onPress={() => signIn({ email, password }, setAuth)}
-          />
+          <Button title="submit" onPress={() => signIn({ email, password })} />
         </Fragment>
       </View>
     </Fragment>
