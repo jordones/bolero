@@ -1,52 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, useColorScheme, View } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Text, TextStyle, View } from 'react-native';
+import { useTheme } from '../Theme/Theme';
+import { Theme } from '../Theme/values';
 
 const Section: React.FC<{
   title: string;
 }> = ({ children, title }) => {
-  const isDarkMode = useColorScheme() === 'dark';
+  const style = useTheme(styleCreator);
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={style.sectionContainer}>
+      <Text style={style.sectionTitle}>{title}</Text>
+      <Text style={style.sectionDescription}>{children}</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const styleCreator = (theme: Theme) => ({
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
   },
   sectionTitle: {
     fontSize: 24,
-    fontWeight: '600',
-  },
+    fontWeight: theme.fontWeight.heavy,
+    color: theme.color.text,
+  } as TextStyle,
   sectionDescription: {
     marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+    fontSize: theme.fontSize.medium,
+    fontWeight: theme.fontWeight.medium,
+    color: theme.color.text,
+  } as TextStyle,
 });
 
 export default Section;
