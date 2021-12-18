@@ -1,11 +1,13 @@
 import { DocumentData } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, useColorScheme, View } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import {
   useFollowService,
   usePostService,
   useUsersService,
 } from '../Service/ServiceProvider';
+import { useTheme } from '../Theme/Theme';
+import { Theme } from '../Theme/values';
 import { Song } from './Song';
 
 export const PostFeed: React.FC = () => {
@@ -13,9 +15,7 @@ export const PostFeed: React.FC = () => {
   const postService = usePostService();
   const followService = useFollowService();
   const usersService = useUsersService();
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const style = styles(isDarkMode);
+  const style = useTheme(styleCreator);
 
   useEffect(() => {
     const loadPosts = async () => {
@@ -63,42 +63,23 @@ export const PostFeed: React.FC = () => {
           isLiked={true}
         />
       ))}
-      {/* {posts?.map((e, key) => (
-        <TouchableOpacity
-          key={key}
-          style={style.cell}
-          onPress={() => Linking.openURL(e.songUrl)}>
-          <Text style={style.header}>{e.name ?? 'Me'}</Text>
-          <Text style={style.body}>{e.comment}</Text>
-        </TouchableOpacity>
-      ))} */}
     </View>
   );
 };
 
-const styles = (isDarkMode: boolean) =>
-  StyleSheet.create({
-    wrapper: {
-      backgroundColor: isDarkMode ? 'black' : 'white',
-      flex: 1,
-      display: 'flex',
-      paddingHorizontal: 24,
-    },
-    cell: {
-      borderRadius: 6,
-      marginVertical: 4,
-      paddingHorizontal: 4,
-      paddingVertical: 4,
-      borderColor: isDarkMode ? 'white' : 'black',
-      borderWidth: 1,
-    },
-    header: {
-      fontSize: 16,
-      fontWeight: '500',
-      color: isDarkMode ? 'white' : 'black',
-    },
-    body: {
-      fontSize: 12,
-      color: isDarkMode ? 'white' : 'black',
-    },
-  });
+const styleCreator = (theme: Theme) => ({
+  wrapper: {
+    flex: 1,
+    display: 'flex',
+    paddingHorizontal: 24,
+  } as ViewStyle,
+  header: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: theme.color.text,
+  },
+  body: {
+    fontSize: 12,
+    color: theme.color.text,
+  },
+});
