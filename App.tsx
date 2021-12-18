@@ -25,7 +25,6 @@ import ProfileHeader from './src/Profile/ProfileHeader';
 import { ServiceProvider } from './src/Service/ServiceProvider';
 import { PostFeed } from './src/Feed/PostFeed';
 import { SearchBar } from './src/Search/SearchBar';
-import { is } from '@babel/types';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
