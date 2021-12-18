@@ -26,6 +26,7 @@ import { ServiceProvider } from './src/Service/ServiceProvider';
 import { PostFeed } from './src/Feed/PostFeed';
 import { SearchBar } from './src/Search/SearchBar';
 import Section from './src/Common/Section';
+import { ThemeProvider } from './src/Theme/Theme';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
@@ -100,9 +101,11 @@ const styles = (isDarkMode: boolean) =>
 
 const App = () => {
   return (
-    <AuthProvider>
-      <Root />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Root />
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 
