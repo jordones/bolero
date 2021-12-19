@@ -9,6 +9,7 @@ interface Color {
   backdrop: string;
   onSurface: string;
   notification: string;
+  icon: string;
 }
 
 interface FontSize {
@@ -37,11 +38,12 @@ export const lightColors: Color = {
   background: '#fff',
   surface: '#536162',
   text: '#000',
-  disabled: '#',
+  disabled: '#222',
   placeholder: '#666',
   backdrop: '#eee',
   onSurface: '#424642',
   notification: '#',
+  icon: '#efeee6',
 };
 
 export const darkColors: Color = {
@@ -50,11 +52,12 @@ export const darkColors: Color = {
   background: '#000',
   surface: '#424642',
   text: '#fff',
-  disabled: '#',
+  disabled: '#222',
   placeholder: '#ddd',
   backdrop: '#111',
   onSurface: '#536162',
   notification: '#',
+  icon: '#efeee6',
 };
 
 export const fontSizes: FontSize = {

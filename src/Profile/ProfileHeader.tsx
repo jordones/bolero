@@ -7,6 +7,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { useAuthState } from '../Auth/Auth';
+import { Profile } from '../Icons/Profile';
 import { useUsersService } from '../Service/ServiceProvider';
 import { useTheme } from '../Theme/Theme';
 import { Theme } from '../Theme/values';
@@ -46,7 +47,7 @@ const ProfileHeader = () => {
   return (
     <TouchableOpacity onPress={() => {}}>
       <View style={style.container}>
-        <ProfileCircle />
+        <Profile />
         <Text style={style.header}>{userName}</Text>
       </View>
     </TouchableOpacity>
@@ -57,7 +58,8 @@ const styleCreator = (theme: Theme) => ({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 4,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
   } as ViewStyle,
   header: {
     color: theme.color.text,

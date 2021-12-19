@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, ViewStyle, TextStyle } from 'react-native';
+import { Logo } from '../Icons/Brand';
+import { Heart } from '../Icons/Heart';
 import { useTheme } from '../Theme/Theme';
 import { Theme } from '../Theme/values';
 
@@ -15,7 +17,7 @@ interface Props {
 }
 
 export const Song: React.FC<Props> = props => {
-  const { author, post, songTitle, artist, album, isLiked } = props;
+  const { author, post, songTitle, artist, album } = props;
   const style = useTheme(styleCreator);
   return (
     <View style={style.wrapper}>
@@ -41,17 +43,14 @@ export const Song: React.FC<Props> = props => {
           </View>
         </View>
         <View style={style.heartcontainer}>
-          {isLiked ? (
-            <View style={style.placeholderheartfilled} />
-          ) : (
-            <View style={style.placeholderheart} />
-          )}
+          {/* {author !== 'Me' ? <Heart /> : <HeartFilled />} */}
+          <Heart liked={author === 'Me'} />
         </View>
       </View>
       <View style={style.linkSection}>
-        <View style={style.placeholderIcon} />
-        <View style={style.placeholderIcon} />
-        <View style={style.placeholderIcon} />
+        <Logo brand="spotify" />
+        <Logo brand="applemusic" />
+        <Logo brand="youtube-play" disabled />
       </View>
     </View>
   );
@@ -103,29 +102,11 @@ const styleCreator = (theme: Theme) => ({
     flexDirection: 'row',
     padding: 16,
   } as ViewStyle,
-  placeholderIcon: {
-    width: 25,
-    height: 25,
-    borderRadius: 100,
-    backgroundColor: 'grey',
-  },
   heartcontainer: {
     justifyContent: 'center',
     alignItems: 'center',
     paddingRight: 24,
   } as ViewStyle,
-  placeholderheart: {
-    width: 25,
-    height: 25,
-    borderRadius: 100,
-    backgroundColor: 'grey',
-  },
-  placeholderheartfilled: {
-    width: 25,
-    height: 25,
-    borderRadius: 100,
-    backgroundColor: 'pink',
-  },
   placeholderAlbumArt: {
     width: 40,
     height: 40,
