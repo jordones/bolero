@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
+  TextStyle,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -12,7 +13,11 @@ import { useUsersService } from '../Service/ServiceProvider';
 import { useTheme } from '../Theme/Theme';
 import { Theme } from '../Theme/values';
 
-const ProfileCircle = () => <View style={circleStyle.circle} />;
+const ProfileCircle = () => (
+  <View style={circleStyle.circle}>
+    <Profile />
+  </View>
+);
 
 const circleStyle = StyleSheet.create({
   circle: {
@@ -20,8 +25,10 @@ const circleStyle = StyleSheet.create({
     width: 40,
     margin: 4,
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#DDD',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -47,7 +54,7 @@ const ProfileHeader = () => {
   return (
     <TouchableOpacity onPress={() => {}}>
       <View style={style.container}>
-        <Profile />
+        <ProfileCircle />
         <Text style={style.header}>{userName}</Text>
       </View>
     </TouchableOpacity>
@@ -63,7 +70,9 @@ const styleCreator = (theme: Theme) => ({
   } as ViewStyle,
   header: {
     color: theme.color.text,
-  },
+    fontSize: theme.fontSize.large,
+    fontWeight: theme.fontWeight.heavy,
+  } as TextStyle,
 });
 
 export default ProfileHeader;
