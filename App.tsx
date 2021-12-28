@@ -26,6 +26,7 @@ import { SearchBar } from './src/Search/SearchBar';
 import Section from './src/Common/Section';
 import { ThemeProvider, useTheme } from './src/Theme/Theme';
 import { Theme } from './src/Theme/values';
+import Navigation from './src/Navigation';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',
@@ -94,11 +95,13 @@ const stylefn = (theme: Theme) => ({
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Root />
-      </AuthProvider>
-    </ThemeProvider>
+    <Navigation>
+      <ThemeProvider>
+        <AuthProvider>
+          <Root />
+        </AuthProvider>
+      </ThemeProvider>
+    </Navigation>
   );
 };
 
