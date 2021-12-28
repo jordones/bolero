@@ -77,6 +77,7 @@
 		F720F1E3275C2805008620A8 /* Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share.entitlements; sourceTree = "<group>"; };
 		F720F1E6275C2ABB008620A8 /* SharedStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedStorage.h; sourceTree = "<group>"; };
 		F720F1E7275C2ACE008620A8 /* SharedStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharedStorage.m; sourceTree = "<group>"; };
+		F7DB547E276FC295009D54FE /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* bolero */ = {
 			isa = PBXGroup;
 			children = (
+				F7DB5480276FC2A1009D54FE /* Fonts */,
 				F720F1E5275C2A98008620A8 /* SharedStorage */,
 				F720F1E2275C273E008620A8 /* bolero.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -210,6 +212,14 @@
 				F720F1E7275C2ACE008620A8 /* SharedStorage.m */,
 			);
 			path = SharedStorage;
+			sourceTree = "<group>";
+		};
+		F7DB5480276FC2A1009D54FE /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F7DB547E276FC295009D54FE /* Fontisto.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -690,7 +700,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -756,7 +766,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

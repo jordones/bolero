@@ -64,12 +64,12 @@ const Root = () => {
   return (
     <ServiceProvider>
       <SafeAreaView style={style.wrapper}>
+        <ProfileHeader />
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={style.container}>
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
           <View style={style.container}>
-            <ProfileHeader />
             <Section title="Posts" />
             <PostFeed />
             <Section title="Search" />
