@@ -1,15 +1,26 @@
 import * as React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationOptions,
+} from '@react-navigation/native-stack';
 import * as Screens from '../Screens';
 import { useAuthState } from '../Auth/Auth';
 
 const Stack = createNativeStackNavigator();
 
+const defaultOptions: NativeStackNavigationOptions = {
+  headerShown: false,
+};
+
 const StackNavigator = () => {
-  const { isAuthenticated } = useAuthState();
+  const { isLoaded, isAuthenticated } = useAuthState();
+
+  if (!isLoaded) {
+    return <Screens.LoadingScreen />;
+  }
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator defaultScreenOptions={defaultOptions}>
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Posts" component={Screens.PostsScreen} />
