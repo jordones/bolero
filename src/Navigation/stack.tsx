@@ -8,7 +8,7 @@ import { useAuthState } from '../Auth/Auth';
 
 const Stack = createNativeStackNavigator();
 
-const defaultOptions: NativeStackNavigationOptions = {
+const screenOptions: NativeStackNavigationOptions = {
   headerShown: false,
 };
 
@@ -20,7 +20,7 @@ const StackNavigator = () => {
   }
 
   return (
-    <Stack.Navigator defaultScreenOptions={defaultOptions}>
+    <Stack.Navigator screenOptions={screenOptions}>
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Posts" component={Screens.PostsScreen} />
