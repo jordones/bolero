@@ -9,6 +9,7 @@ import {
   LayoutChangeEvent,
   View,
 } from 'react-native';
+import { useAuthState } from '../Auth/Auth';
 import { NavIcon } from '../Icons/NavIcon';
 import { useTabBarHeight, useTheme } from '../Theme/Theme';
 import { Theme } from '../Theme/values';
@@ -37,11 +38,16 @@ const TabButton: FC<TabButtonProps> = ({ screen, styles, navigation }) => (
 export const Tabs = () => {
   const style = useTheme(styleFn);
   const navigation = useNavigation<AllNavigationProps>();
+  const { isLoaded, isAuthenticated } = useAuthState();
 
   // Handle Layout Shift
   const { setHeight } = useTabBarHeight();
   const handleLayoutEvent = (event: LayoutChangeEvent) =>
     setHeight(event.nativeEvent.layout.height);
+
+  if (!isLoaded || !isAuthenticated) {
+    return null;
+  }
 
   return (
     <SafeAreaView style={style.bar}>

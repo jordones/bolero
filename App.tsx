@@ -36,16 +36,16 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <Navigation>
-        <AuthProvider>
+      <AuthProvider>
+        <Navigation>
           <ServiceProvider>
             <StatusBar
               barStyle={isDarkMode ? 'light-content' : 'dark-content'}
             />
             <StackNavigator />
           </ServiceProvider>
-        </AuthProvider>
-      </Navigation>
+        </Navigation>
+      </AuthProvider>
     </ThemeProvider>
   );
 };
