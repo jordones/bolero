@@ -20,29 +20,27 @@ interface TabButtonStyle {
 interface TabButtonProps {
   screen: Screen;
   styles: TabButtonStyle;
+  navigation: AllNavigationProps;
 }
 
-const TabButton: FC<TabButtonProps> = ({ screen, styles }) => {
-  const navigation = useNavigation<AllNavigationProps>();
-
-  return (
-    <TouchableOpacity
-      style={styles.button}
-      onPress={() => navigation.navigate(screen)}>
-      <NavIcon screen={screen} />
-      <Text style={styles.label}>{screen}</Text>
-    </TouchableOpacity>
-  );
-};
+const TabButton: FC<TabButtonProps> = ({ screen, styles, navigation }) => (
+  <TouchableOpacity
+    style={styles.button}
+    onPress={() => navigation.navigate(screen)}>
+    <NavIcon screen={screen} />
+    <Text style={styles.label}>{screen}</Text>
+  </TouchableOpacity>
+);
 
 export const Tabs = () => {
   const style = useTheme(styleFn);
+  const navigation = useNavigation<AllNavigationProps>();
 
   return (
     <SafeAreaView style={style.bar}>
-      <TabButton screen={'Posts'} styles={style} />
-      <TabButton screen={'Search'} styles={style} />
-      <TabButton screen={'Profile'} styles={style} />
+      <TabButton navigation={navigation} screen={'Posts'} styles={style} />
+      <TabButton navigation={navigation} screen={'Search'} styles={style} />
+      <TabButton navigation={navigation} screen={'Profile'} styles={style} />
     </SafeAreaView>
   );
 };
