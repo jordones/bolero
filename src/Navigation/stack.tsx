@@ -5,8 +5,9 @@ import {
 } from '@react-navigation/native-stack';
 import * as Screens from '../Screens';
 import { useAuthState } from '../Auth/Auth';
+import { RootStackParamList } from '../Types/Screens';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const screenOptions: NativeStackNavigationOptions = {
   headerShown: false,

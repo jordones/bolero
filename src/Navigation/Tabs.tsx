@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { FC } from 'react';
 import {
-  View,
   TouchableOpacity,
   ViewStyle,
   SafeAreaView,
@@ -11,7 +10,7 @@ import {
 import { NavIcon } from '../Icons/NavIcon';
 import { useTheme } from '../Theme/Theme';
 import { Theme } from '../Theme/values';
-import { Screen } from '../Types/Screens';
+import { AllNavigationProps, Screen } from '../Types/Screens';
 
 interface TabButtonStyle {
   button: ViewStyle;
@@ -24,7 +23,7 @@ interface TabButtonProps {
 }
 
 const TabButton: FC<TabButtonProps> = ({ screen, styles }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<AllNavigationProps>();
 
   return (
     <TouchableOpacity
