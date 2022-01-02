@@ -10,6 +10,7 @@ const Stack = createNativeStackNavigator();
 
 const screenOptions: NativeStackNavigationOptions = {
   headerShown: false,
+  animation: 'none',
 };
 
 const StackNavigator = () => {
