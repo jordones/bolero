@@ -35,8 +35,8 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <Navigation>
-      <ThemeProvider>
+    <ThemeProvider>
+      <Navigation>
         <AuthProvider>
           <ServiceProvider>
             <StatusBar
@@ -45,8 +45,8 @@ const App = () => {
             <StackNavigator />
           </ServiceProvider>
         </AuthProvider>
-      </ThemeProvider>
-    </Navigation>
+      </Navigation>
+    </ThemeProvider>
   );
 };
 
