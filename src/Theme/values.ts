@@ -26,8 +26,8 @@ interface FontWeight {
 }
 
 export interface TabBarHeight {
-  get: number;
-  set: (height: number) => void;
+  height: number;
+  setHeight: (height: number) => void;
 }
 
 export interface Theme {

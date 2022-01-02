@@ -36,6 +36,6 @@ const stylefn = (theme: Theme) => ({
     backgroundColor: theme.color.backdrop,
   },
   tabBarPad: {
-    paddingBottom: theme.tabBarHeight.get,
+    paddingBottom: theme.tabBarHeight.height,
   },
 });

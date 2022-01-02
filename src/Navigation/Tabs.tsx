@@ -39,9 +39,9 @@ export const Tabs = () => {
   const navigation = useNavigation<AllNavigationProps>();
 
   // Handle Layout Shift
-  const { set } = useTabBarHeight();
+  const { setHeight } = useTabBarHeight();
   const handleLayoutEvent = (event: LayoutChangeEvent) =>
-    set(event.nativeEvent.layout.height);
+    setHeight(event.nativeEvent.layout.height);
 
   return (
     <SafeAreaView style={style.bar}>

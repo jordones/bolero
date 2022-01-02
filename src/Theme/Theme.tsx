@@ -14,7 +14,7 @@ export const ThemeContext = React.createContext<Theme>({
   color: lightColors,
   fontSize: fontSizes,
   fontWeight: fontWeights,
-  tabBarHeight: { set: () => {}, get: 0 },
+  tabBarHeight: { setHeight: () => {}, height: 0 },
 });
 
 export const ThemeProvider: React.FC = ({ children }) => {
@@ -26,7 +26,7 @@ export const ThemeProvider: React.FC = ({ children }) => {
         color: colorScheme === 'dark' ? darkColors : lightColors,
         fontSize: fontSizes,
         fontWeight: fontWeights,
-        tabBarHeight: { get: tabBarHeight, set: setTabBarHeight },
+        tabBarHeight: { height: tabBarHeight, setHeight: setTabBarHeight },
       }}>
       {children}
     </ThemeContext.Provider>
