@@ -7,6 +7,7 @@ import {
   Text,
   TextStyle,
   LayoutChangeEvent,
+  View,
 } from 'react-native';
 import { NavIcon } from '../Icons/NavIcon';
 import { useTabBarHeight, useTheme } from '../Theme/Theme';
@@ -39,15 +40,16 @@ export const Tabs = () => {
 
   // Handle Layout Shift
   const { set } = useTabBarHeight();
-  const handleLayoutEvent = (event: LayoutChangeEvent) => {
+  const handleLayoutEvent = (event: LayoutChangeEvent) =>
     set(event.nativeEvent.layout.height);
-  };
 
   return (
-    <SafeAreaView style={style.bar} onLayout={handleLayoutEvent}>
-      <TabButton navigation={navigation} screen={'Posts'} styles={style} />
-      <TabButton navigation={navigation} screen={'Search'} styles={style} />
-      <TabButton navigation={navigation} screen={'Profile'} styles={style} />
+    <SafeAreaView style={style.bar}>
+      <View style={style.content} onLayout={handleLayoutEvent}>
+        <TabButton navigation={navigation} screen={'Posts'} styles={style} />
+        <TabButton navigation={navigation} screen={'Search'} styles={style} />
+        <TabButton navigation={navigation} screen={'Profile'} styles={style} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -57,10 +59,12 @@ const styleFn = (theme: Theme) => ({
     position: 'absolute',
     bottom: 0,
     width: '100%',
+    backgroundColor: theme.color.transparent,
+  } as ViewStyle,
+  content: {
     justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: theme.color.transparent,
   } as ViewStyle,
   button: {
     justifyConent: 'center',
