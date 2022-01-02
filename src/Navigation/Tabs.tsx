@@ -6,9 +6,10 @@ import {
   SafeAreaView,
   Text,
   TextStyle,
+  LayoutChangeEvent,
 } from 'react-native';
 import { NavIcon } from '../Icons/NavIcon';
-import { useTheme } from '../Theme/Theme';
+import { useTabBarHeight, useTheme } from '../Theme/Theme';
 import { Theme } from '../Theme/values';
 import { AllNavigationProps, Screen } from '../Types/Screens';
 
@@ -36,8 +37,14 @@ export const Tabs = () => {
   const style = useTheme(styleFn);
   const navigation = useNavigation<AllNavigationProps>();
 
+  // Handle Layout Shift
+  const { set } = useTabBarHeight();
+  const handleLayoutEvent = (event: LayoutChangeEvent) => {
+    set(event.nativeEvent.layout.height);
+  };
+
   return (
-    <SafeAreaView style={style.bar}>
+    <SafeAreaView style={style.bar} onLayout={handleLayoutEvent}>
       <TabButton navigation={navigation} screen={'Posts'} styles={style} />
       <TabButton navigation={navigation} screen={'Search'} styles={style} />
       <TabButton navigation={navigation} screen={'Profile'} styles={style} />
@@ -47,9 +54,13 @@ export const Tabs = () => {
 
 const styleFn = (theme: Theme) => ({
   bar: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
     justifyContent: 'space-around',
     alignItems: 'center',
     flexDirection: 'row',
+    backgroundColor: theme.color.transparent,
   } as ViewStyle,
   button: {
     justifyConent: 'center',

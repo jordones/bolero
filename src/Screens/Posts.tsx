@@ -16,9 +16,10 @@ export const PostsScreen: FC = () => {
     <Screen>
       <ProfileHeader />
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentInsetAdjustmentBehavior="automatic"
         style={style.container}>
-        <View style={style.container}>
+        <View style={[style.container, style.tabBarPad]}>
           <Section title="Posts" />
           <PostFeed />
           <Section title="Search" />
@@ -33,5 +34,8 @@ export const PostsScreen: FC = () => {
 const stylefn = (theme: Theme) => ({
   container: {
     backgroundColor: theme.color.backdrop,
+  },
+  tabBarPad: {
+    paddingBottom: theme.tabBarHeight.get,
   },
 });

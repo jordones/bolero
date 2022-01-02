@@ -10,6 +10,7 @@ interface Color {
   onSurface: string;
   notification: string;
   icon: string;
+  transparent: string;
 }
 
 interface FontSize {
@@ -24,10 +25,16 @@ interface FontWeight {
   light: string;
 }
 
+export interface TabBarHeight {
+  get: number;
+  set: (height: number) => void;
+}
+
 export interface Theme {
   color: Color;
   fontSize: FontSize;
   fontWeight: FontWeight;
+  tabBarHeight: TabBarHeight;
 }
 
 export type StyleCreator<T> = (theme: Theme) => T;
@@ -44,6 +51,7 @@ export const lightColors: Color = {
   onSurface: '#424642',
   notification: '#',
   icon: '#efeee6',
+  transparent: 'rgba(255, 255, 255, 0.9)',
 };
 
 export const darkColors: Color = {
@@ -58,6 +66,7 @@ export const darkColors: Color = {
   onSurface: '#536162',
   notification: '#',
   icon: '#efeee6',
+  transparent: 'rgba(0, 0, 0, 0.8)',
 };
 
 export const fontSizes: FontSize = {
