@@ -15,7 +15,7 @@ import { AuthProvider } from './src/Auth/Auth';
 import { ServiceProvider } from './src/Service/ServiceProvider';
 import { ThemeProvider } from './src/Theme/Theme';
 import Navigation from './src/Navigation';
-import StackNavigator from './src/Navigation/stack';
+import StackNavigator from './src/Navigation/Stack';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY',

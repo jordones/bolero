@@ -33,8 +33,3 @@ const styleCreator = (theme: Theme) => ({
     color: theme.color.surface,
   },
 });
-
-// export const HeartFilled = () => (
-//   <Icon name="heart" size={15} color="#efeee6" />
-// );
-// export const Heart = () => <Icon name="heart" size={15} color="#222" />;
