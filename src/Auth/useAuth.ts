@@ -55,6 +55,7 @@ const useAuth = () => {
     userId,
     signOut: () => signOut(auth),
     isAuthenticated: state.loggedIn,
+    isLoaded: state.loaded,
   };
 };
 

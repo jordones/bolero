@@ -2,12 +2,14 @@ import React from 'react';
 import useAuth from './useAuth';
 
 interface ContextProps {
+  isLoaded: boolean;
   isAuthenticated: boolean;
   userId: string | undefined;
   signOut: () => void;
 }
 
 export const AuthContext = React.createContext<ContextProps>({
+  isLoaded: false,
   isAuthenticated: false,
   userId: undefined,
   signOut: () => {},

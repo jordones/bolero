@@ -42,8 +42,3 @@ const styleCreator = (disabled: boolean) => (theme: Theme) => ({
     opacity: disabled ? 0.5 : 1,
   },
 });
-
-// export const HeartFilled = () => (
-//   <Icon name="heart" size={15} color="#efeee6" />
-// );
-// export const Heart = () => <Icon name="heart" size={15} color="#222" />;
