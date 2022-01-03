@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Screen } from '../Common/Screen';
 import { FC } from 'react';
-import { SearchBar } from 'react-native-screens';
 import Section from '../Common/Section';
+import { SearchBar } from '../Search/SearchBar';
 
 export const SearchScreen: FC = () => {
   return (

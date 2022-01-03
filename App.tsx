@@ -14,7 +14,7 @@ import { initializeApp, getApps } from 'firebase/app';
 import { AuthProvider } from './src/Auth/Auth';
 import { ServiceProvider } from './src/Service/ServiceProvider';
 import { ThemeProvider } from './src/Theme/Theme';
-import Navigation from './src/Navigation';
+import Navigation from './src/Navigation/Navigation';
 import StackNavigator from './src/Navigation/Stack';
 
 const firebaseConfig = {
