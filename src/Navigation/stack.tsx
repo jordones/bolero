@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/native-stack';
 import * as Screens from '../Screens';
 import { useAuthState } from '../Auth/Auth';
-import { RootStackParamList } from '../Types/Screens';
+import { RootStackParamList } from '../Types/Navigation';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

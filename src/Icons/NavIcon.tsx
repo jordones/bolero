@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Fontisto';
 import { useTheme } from '../Theme/Theme';
 import { Theme } from '../Theme/values';
-import { Screen } from '../Types/Screens';
+import { Screen } from '../Types/Navigation';
 
 interface Props {
   screen: Screen;

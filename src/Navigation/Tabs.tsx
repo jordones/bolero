@@ -13,7 +13,7 @@ import { useAuthState } from '../Auth/Auth';
 import { NavIcon } from '../Icons/NavIcon';
 import { useTabBarHeight, useTheme } from '../Theme/Theme';
 import { Theme } from '../Theme/values';
-import { AllNavigationProps, Screen } from '../Types/Screens';
+import { AllNavigationProps, Screen } from '../Types/Navigation';
 
 interface TabButtonStyle {
   button: ViewStyle;
