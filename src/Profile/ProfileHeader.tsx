@@ -40,8 +40,7 @@ const ProfileHeader = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const data = await usersService.getUserProfile();
-      console.log(data);
-      setUserName(data?.name ?? '');
+      setUserName(data ?? '');
     };
 
     fetchUser();

@@ -13,9 +13,12 @@ export default function (db: Firestore, auth: Auth) {
       unpackQuerySnapshotWithId(await repository.getUserDataById(userId)),
     getUserProfilesByIds: async (ids: string[]) =>
       unpackQuerySnapshotWithId(await repository.getMultiUserDataByIds(ids)),
+    getUserSongCollections: async () =>
+      unpackQuerySnapshotWithId(await repository.getSongsCollection()),
     getUserProfile: async () => {
       const data = await repository.getUserData();
-      return data.docs[0].data();
+      const name = data.docs[0].data()?.name;
+      return name;
     },
     setUserProfile: async (payload: UserProfile) =>
       repository.setUserData(payload),
