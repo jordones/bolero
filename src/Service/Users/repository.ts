@@ -14,6 +14,10 @@ export interface UserProfile {
   userName: String;
 }
 
+export interface NewCollectionPayload {
+  name: string;
+}
+
 export default function (db: Firestore, auth: Auth) {
   const getUserCollection = () => collection(db, Collections.users);
   const getUserCollectionById = (id: string) =>
@@ -45,6 +49,8 @@ export default function (db: Firestore, auth: Auth) {
     setUserData: async (payload: UserProfile) =>
       addDoc(getUserDataCollection(), payload),
     getSongsCollection: async () => getDocs(getUserSongsSubcollection()),
+    createSongCollection: async (payload: NewCollectionPayload) =>
+      addDoc(getUserSongsSubcollection(), payload),
   };
 
   return repository;

@@ -14,10 +14,13 @@ async function promptAddCollection(
 }
 
 export const NewCollectionCell: FC<Props> = props => {
+  const usersService = useUsersService();
   return (
     <Cell
       label="➕🎶"
-      onPress={() => promptAddCollection(console.log)}
+      onPress={() =>
+        promptAddCollection(name => usersService.createSongCollection({ name }))
+      }
       {...props}
     />
   );

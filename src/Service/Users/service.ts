@@ -1,6 +1,6 @@
 import { Firestore } from 'firebase/firestore';
 import { Auth } from 'firebase/auth';
-import Repository, { UserProfile } from './repository';
+import Repository, { NewCollectionPayload, UserProfile } from './repository';
 import { unpackQuerySnapshotWithId } from '../../Common/Firebase/util';
 
 export default function (db: Firestore, auth: Auth) {
@@ -22,6 +22,8 @@ export default function (db: Firestore, auth: Auth) {
     },
     setUserProfile: async (payload: UserProfile) =>
       repository.setUserData(payload),
+    createSongCollection: async (collectionName: NewCollectionPayload) =>
+      repository.createSongCollection(collectionName),
   };
 
   return service;
