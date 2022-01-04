@@ -42,7 +42,9 @@ const useAuth = () => {
           loaded: true,
         });
         setUserId(user.uid);
-        setStoredAuth({ token: user.refreshToken, id: user.uid });
+        user.getIdToken().then(token => {
+          setStoredAuth({ token, id: user.uid });
+        });
       }
     });
 
