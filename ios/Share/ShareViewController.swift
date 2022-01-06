@@ -8,6 +8,7 @@
 import UIKit
 import Social
 import LinkPresentation
+import Alamofire
 
 class ShareViewController: SLComposeServiceViewController {
 
@@ -16,6 +17,7 @@ class ShareViewController: SLComposeServiceViewController {
   private var authToken: String? = nil
   private var userId: String? = nil
   private var songLink: String? = nil
+  private var collections: [Collection] = []
 
   override func viewDidLoad() {
       super.viewDidLoad()
@@ -29,6 +31,7 @@ class ShareViewController: SLComposeServiceViewController {
       } else {
         self.title = "Share song!"
         self.handleSharedLink()
+        self.loadCollections()
       }
   }
   
@@ -52,8 +55,31 @@ class ShareViewController: SLComposeServiceViewController {
       return []
   }
   
+  // Load user's collections from FireStore
   private func loadCollections() {
-    
+    guard let userId = self.userId, let authToken = self.authToken else { return }
+    let url = "https://firestore.googleapis.com/v1/projects/bolero-app/databases/(default)/documents/users/\(userId)/songCollections"
+    let headers: HTTPHeaders = HTTPHeaders([
+      "Authorization": "Bearer \(authToken)",
+      "Content-Type": "application/json",
+    ]);
+
+    AF.request(
+      url,
+      method: .get,
+      headers: headers
+    )
+    .validate()
+    .responseData { (response) in
+      guard let data = response.data else { return }
+      do {
+        let jsonDecoder = JSONDecoder()
+        let parsedData = try jsonDecoder.decode(DocumentResponse.self, from: data)
+        self.collections = parsedData.documents
+      } catch {
+        print("ow? \(error)")
+      }
+    }
   }
   
   private func handleSharedLink() {
