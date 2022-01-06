@@ -133,31 +133,31 @@ class ShareViewController: SLComposeServiceViewController {
     guard let userId = self.userId, let authToken = self.authToken else {
       return
     }
-    let url = URL(string: "https://firestore.googleapis.com/v1/projects/bolero-app/databases/(default)/documents/posts/\(userId)/userPosts")!
-    let now = Date().ISO8601Format()
-
-    let payload: [String: [String: String]?] = [
-      "songUrl": ["stringValue": link],
-      "comment": ["stringValue": comment],
-      "createdAt": ["timestampValue": now],
-      "updatedAt": ["timestampValue": now],
-    ]
-    let fullPayload: Dictionary = [
-      "fields": payload,
-    ] as [String : Any]
-
-    let serializedPayload = try? JSONSerialization.data(withJSONObject: fullPayload)
-    var request = URLRequest(url: url)
-    request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.httpMethod = "POST"
-    request.httpBody = serializedPayload
     
-    let task = URLSession.shared.dataTask(with: request) { data, error, etc in
-      print(data as Any)
-      print(error as Any)
-      print(etc as Any)
+    let now = Date().ISO8601Format()
+    let url = "https://firestore.googleapis.com/v1/projects/bolero-app/databases/(default)/documents/posts/\(userId)/userPosts"
+    let headers: HTTPHeaders = HTTPHeaders([
+      "Authorization": "Bearer \(authToken)",
+      "Content-Type": "application/json",
+    ]);
+    
+    let parameters = [
+      "fields": [
+        "songUrl": ["stringValue": link],
+        "comment": ["stringValue": comment],
+        "createdAt": ["timestampValue": now],
+        "updatedAt": ["timestampValue": now],
+      ]
+    ]
+
+    AF.request(
+      url,
+      method: .post,
+      parameters: parameters,
+      encoder: JSONParameterEncoder.default,
+      headers: headers
+    ).response { (response) in
+      debugPrint(response)
     }
-    task.resume()
   }
 }
