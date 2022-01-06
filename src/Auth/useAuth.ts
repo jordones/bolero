@@ -7,6 +7,7 @@ const { SharedStorage } = NativeModules;
 export interface setAuthProps {
   token: string;
   id: string;
+  refreshToken: string;
 }
 
 const useAuth = () => {
@@ -19,9 +20,16 @@ const useAuth = () => {
   });
 
   const setStoredAuth = useCallback(
-    ({ token, id }: setAuthProps = { token: '', id: '' }) => {
+    (
+      { token, id, refreshToken }: setAuthProps = {
+        token: '',
+        id: '',
+        refreshToken: '',
+      },
+    ) => {
       SharedStorage.setString('access_token', token);
       SharedStorage.setString('user_id', id);
+      SharedStorage.setString('refresh_token', refreshToken);
     },
     [],
   );
@@ -43,7 +51,11 @@ const useAuth = () => {
         });
         setUserId(user.uid);
         user.getIdToken().then(token => {
-          setStoredAuth({ token, id: user.uid });
+          setStoredAuth({
+            token,
+            id: user.uid,
+            refreshToken: user.refreshToken,
+          });
         });
       }
     });

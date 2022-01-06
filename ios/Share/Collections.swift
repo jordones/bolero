@@ -50,3 +50,21 @@ struct Collection: Decodable {
 struct DocumentResponse: Decodable {
   let documents: [Collection]
 }
+
+struct AuthResponse: Decodable {
+  let expiresIn: String
+  let tokenType: String
+  let refreshToken: String
+  let idToken: String
+  let userId: String
+  let projectId: String
+
+  enum CodingKeys: String, CodingKey {
+    case expiresIn = "expires_in"
+    case tokenType = "token_type"
+    case refreshToken = "refresh_token"
+    case idToken = "id_token"
+    case userId = "user_id"
+    case projectId = "project_id"
+  }
+}

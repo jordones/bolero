@@ -16,6 +16,7 @@ class ShareViewController: SLComposeServiceViewController {
   private static let validHosts = ["open.spotify.com", "music.apple.com"]
   private var authToken: String? = nil
   private var userId: String? = nil
+  private var refreshToken: String? = nil
   private var songLink: String? = nil
   private var collections: [Collection] = []
 
@@ -24,7 +25,11 @@ class ShareViewController: SLComposeServiceViewController {
       let defaults = UserDefaults(suiteName: "group.bolero")
       authToken = defaults?.string(forKey: "access_token") ?? nil
       userId = defaults?.string(forKey: "user_id") ?? nil
+      refreshToken = defaults?.string(forKey: "refresh_token") ?? nil
 
+      if refreshToken != nil {
+        self.refreshAuth(refreshToken!)
+      }
       if authToken == nil || authToken == "" {
         self.textView.text = "Please sign in through the Bolero app :)"
         self.textView.isEditable = false
@@ -158,6 +163,39 @@ class ShareViewController: SLComposeServiceViewController {
       headers: headers
     ).response { (response) in
       debugPrint(response)
+    }
+  }
+
+  private func refreshAuth(_ refreshToken: String) {
+    guard let _ = self.userId, let _ = self.authToken else {
+      return
+    }
+
+    let url = "https://securetoken.googleapis.com/v1/token?key=AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY"
+    let parameters = [
+      "grant_type": "refresh_token",
+      "refresh_token": refreshToken
+    ]
+
+    AF.request(
+      url,
+      method: .post,
+      parameters: parameters,
+      encoder: JSONParameterEncoder.default
+    )
+    .validate()
+    .responseData { (response) in
+      guard let data = response.data else { return }
+      debugPrint(response)
+      do {
+        let jsonDecoder = JSONDecoder()
+        let parsedData = try jsonDecoder.decode(AuthResponse.self, from: data)
+        self.authToken = parsedData.idToken
+        self.userId = parsedData.userId
+        self.refreshToken = parsedData.refreshToken
+      } catch {
+        print("ow? \(error)")
+      }
     }
   }
 }
