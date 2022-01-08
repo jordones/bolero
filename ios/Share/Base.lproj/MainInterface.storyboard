@@ -23,9 +23,17 @@
                                     <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="ugM-uq-VvP">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="44.666666666666664"/>
                                         <items>
-                                            <barButtonItem systemItem="cancel" id="LFY-rL-1pz"/>
+                                            <barButtonItem systemItem="cancel" id="LFY-rL-1pz">
+                                                <connections>
+                                                    <action selector="cancelButtonAction:" destination="j1y-V4-xli" id="0ci-9u-NWH"/>
+                                                </connections>
+                                            </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="fWB-Q3-WQ7"/>
-                                            <barButtonItem systemItem="save" changesSelectionAsPrimaryAction="YES" id="wVf-qZ-d18"/>
+                                            <barButtonItem systemItem="save" changesSelectionAsPrimaryAction="YES" id="wVf-qZ-d18">
+                                                <connections>
+                                                    <action selector="saveButtonAction:" destination="j1y-V4-xli" id="Gir-ef-XQg"/>
+                                                </connections>
+                                            </barButtonItem>
                                         </items>
                                     </toolbar>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick a Collection" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8p-hO-sxA">
@@ -87,6 +95,12 @@
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="qHH-F6-WF8">
                                         <rect key="frame" x="336" y="108.33333333333334" width="20" height="20"/>
                                     </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="error_msg" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" enabled="NO" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hxl-G2-eQH">
+                                        <rect key="frame" x="28" y="363.66666666666669" width="334" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" systemColor="systemRedColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -110,8 +124,11 @@
                                     <constraint firstAttribute="trailing" secondItem="gbx-mz-j4r" secondAttribute="trailing" constant="24" id="lzy-eQ-lXk"/>
                                     <constraint firstItem="u5f-OF-mjK" firstAttribute="top" secondItem="gbx-mz-j4r" secondAttribute="bottom" constant="8" id="mtB-mK-LEz"/>
                                     <constraint firstItem="W8p-hO-sxA" firstAttribute="top" secondItem="aWI-ON-Icf" secondAttribute="bottom" constant="35" id="ppy-Ha-M7W"/>
+                                    <constraint firstItem="hxl-G2-eQH" firstAttribute="top" secondItem="EEr-cX-ehV" secondAttribute="bottom" constant="8" id="r4x-Zt-tx6"/>
                                     <constraint firstItem="aWI-ON-Icf" firstAttribute="top" secondItem="OLz-oD-QNX" secondAttribute="topMargin" constant="4" id="u6s-Mk-HLa"/>
+                                    <constraint firstItem="hxl-G2-eQH" firstAttribute="leading" secondItem="OLz-oD-QNX" secondAttribute="leading" constant="28" id="wC3-lU-ySi"/>
                                     <constraint firstItem="EEr-cX-ehV" firstAttribute="leading" secondItem="OLz-oD-QNX" secondAttribute="leading" constant="24" id="yq5-ee-9Nz"/>
+                                    <constraint firstAttribute="trailing" secondItem="hxl-G2-eQH" secondAttribute="trailing" constant="28" id="z8g-j5-qBQ"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -127,8 +144,10 @@
                     <connections>
                         <outlet property="collectionActivityIndicator" destination="qHH-F6-WF8" id="eNY-9r-eXJ"/>
                         <outlet property="collectionButton" destination="gbx-mz-j4r" id="xT9-n3-Qah"/>
+                        <outlet property="errorMessageLabel" destination="hxl-G2-eQH" id="1OC-8a-W8L"/>
                         <outlet property="previewActivityIndicator" destination="42r-dS-Pbf" id="VB8-hi-cRv"/>
                         <outlet property="richPreviewView" destination="EEr-cX-ehV" id="H3c-ai-JCX"/>
+                        <outlet property="saveButton" destination="wVf-qZ-d18" id="yjH-gq-dkj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEy-Cv-SGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -148,6 +167,9 @@
         </systemColor>
         <systemColor name="systemFillColor">
             <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

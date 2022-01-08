@@ -20,7 +20,15 @@ class ShareExtViewController: UIViewController {
     private var refreshToken: String? = nil
     private var collections: [Collection] = []
 
-  
+    // Toolbar actions
+    @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
+        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    }
+
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBAction func saveButtonAction(_ sender: UIBarButtonItem) {
+        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    }
     // Collection button
     @IBOutlet weak var collectionButton: UIButton!
     @IBOutlet weak var collectionActivityIndicator: UIActivityIndicatorView!
@@ -29,8 +37,13 @@ class ShareExtViewController: UIViewController {
     @IBOutlet weak var richPreviewView: UIView!
     @IBOutlet weak var previewActivityIndicator: UIActivityIndicatorView!
     
+    // Validation UI
+    @IBOutlet weak var errorMessageLabel: UILabel!
+    
+    
     override func viewDidLoad() {
       super.viewDidLoad()
+      errorMessageLabel.isHidden = true
       loadUserAuth()
       
       if refreshToken != nil {
@@ -38,7 +51,7 @@ class ShareExtViewController: UIViewController {
       }
       
       if authToken == nil || authToken == "" {
-
+        setUserAsNotAuthenticated()
       } else {
         handleSharedLink()
         loadCollections()
@@ -52,6 +65,7 @@ class ShareExtViewController: UIViewController {
     refreshToken = defaults?.string(forKey: "refresh_token") ?? nil
   }
   
+
   private func handleSharedLink() {
     print("handleSharedLink() -> start")
     let sharedData = self.extensionContext?.inputItems.first as? NSExtensionItem
@@ -67,6 +81,7 @@ class ShareExtViewController: UIViewController {
             self.fetchPreview(for: url.absoluteString)
             //self.validateContent()
           } else {
+            setShareAsInvalid()
             //self.textView.text = "Why not try a Spotify or Music link?"
             //self.textView.isEditable = false
           }
@@ -74,6 +89,25 @@ class ShareExtViewController: UIViewController {
       }
     }
   }
+  
+  private func setError(text value: String) {
+      saveButton.isEnabled = false
+      errorMessageLabel.text = value
+      errorMessageLabel.isEnabled = true
+      errorMessageLabel.isHidden = false
+  }
+    
+  private func setShareAsInvalid() {
+      setError(text: "The link you shared is not supported at this time")
+  }
+  
+  private func setUserAsNotAuthenticated() {
+      setError(text: "Please sign in through the app before continuing")
+  }
+    
+    private func setUserHasNoCollections() {
+        setError(text: "You need to add a collection in the app before you can share")
+    }
   
   private func fetchPreview(for link: String) {
     print("~~~~~~~\nmade it to fetchPreview with " + link)
@@ -164,6 +198,7 @@ class ShareExtViewController: UIViewController {
       } catch {
         print("ow? \(error)")
         self.initMenu(with: [])
+        self.setUserHasNoCollections()
       }
     }
   }
