@@ -14,48 +14,46 @@ import Alamofire
 class ShareExtViewController: UIViewController {
   
   private static let validHosts = ["open.spotify.com", "music.apple.com"]
-    // User data
-    private var authToken: String? = nil
-    private var userId: String? = nil
-    private var refreshToken: String? = nil
-    private var collections: [Collection] = []
+  // User data
+  private var authToken: String? = nil
+  private var userId: String? = nil
+  private var refreshToken: String? = nil
 
-    // Toolbar actions
-    @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
-        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+  // Toolbar actions
+  @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+  }
+
+  @IBOutlet weak var saveButton: UIBarButtonItem!
+  @IBAction func saveButtonAction(_ sender: UIBarButtonItem) {
+      // TODO: Add save to collection api call
+      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+  }
+  // Collection button
+  @IBOutlet weak var collectionButton: UIButton!
+  @IBOutlet weak var collectionActivityIndicator: UIActivityIndicatorView!
+
+  // Rich Preview UI
+  @IBOutlet weak var richPreviewView: UIView!
+  @IBOutlet weak var previewActivityIndicator: UIActivityIndicatorView!
+  
+  // Validation UI
+  @IBOutlet weak var errorMessageLabel: UILabel!
+    
+    
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    errorMessageLabel.isHidden = true
+    loadUserAuth()
+    
+    if let token = refreshToken {
+      refreshAuth(token, onSuccess: loadCollections, onFailure: setUserAsNotAuthenticated)
+    } else {
+      setUserAsNotAuthenticated()
+      return
     }
-
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBAction func saveButtonAction(_ sender: UIBarButtonItem) {
-        self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
-    }
-    // Collection button
-    @IBOutlet weak var collectionButton: UIButton!
-    @IBOutlet weak var collectionActivityIndicator: UIActivityIndicatorView!
-
-    // Rich Preview UI
-    @IBOutlet weak var richPreviewView: UIView!
-    @IBOutlet weak var previewActivityIndicator: UIActivityIndicatorView!
     
-    // Validation UI
-    @IBOutlet weak var errorMessageLabel: UILabel!
-    
-    
-    override func viewDidLoad() {
-      super.viewDidLoad()
-      errorMessageLabel.isHidden = true
-      loadUserAuth()
-      
-      if refreshToken != nil {
-        self.refreshAuth(refreshToken!)
-      }
-      
-      if authToken == nil || authToken == "" {
-        setUserAsNotAuthenticated()
-      } else {
-        handleSharedLink()
-        loadCollections()
-      }
+    handleSharedLink()
   }
   
   private func loadUserAuth() {
@@ -67,7 +65,6 @@ class ShareExtViewController: UIViewController {
   
 
   private func handleSharedLink() {
-    print("handleSharedLink() -> start")
     let sharedData = self.extensionContext?.inputItems.first as? NSExtensionItem
     let provider = sharedData?.attachments?.first
     if provider?.hasItemConformingToTypeIdentifier("public.url") != nil {
@@ -76,14 +73,9 @@ class ShareExtViewController: UIViewController {
         guard result != nil else { return }
         if let url = result as? URL, let host = url.host {
           if ShareExtViewController.validHosts.contains(host) {
-            //self.isValidMusicUrl = true
-            //self.songLink = url.absoluteString
-            self.fetchPreview(for: url.absoluteString)
-            //self.validateContent()
+            fetchPreview(for: url.absoluteString)
           } else {
             setShareAsInvalid()
-            //self.textView.text = "Why not try a Spotify or Music link?"
-            //self.textView.isEditable = false
           }
         }
       }
@@ -91,26 +83,25 @@ class ShareExtViewController: UIViewController {
   }
   
   private func setError(text value: String) {
-      saveButton.isEnabled = false
-      errorMessageLabel.text = value
-      errorMessageLabel.isEnabled = true
-      errorMessageLabel.isHidden = false
+    saveButton.isEnabled = false
+    errorMessageLabel.text = value
+    errorMessageLabel.isEnabled = true
+    errorMessageLabel.isHidden = false
   }
     
   private func setShareAsInvalid() {
-      setError(text: "The link you shared is not supported at this time")
+    setError(text: "The link you shared is not supported at this time")
   }
   
   private func setUserAsNotAuthenticated() {
-      setError(text: "Please sign in through the app before continuing")
+    setError(text: "Please sign in through the app before continuing")
   }
     
-    private func setUserHasNoCollections() {
-        setError(text: "You need to add a collection in the app before you can share")
-    }
+  private func setUserHasNoCollections() {
+    setError(text: "You need to add a collection in the app before you can share")
+  }
   
   private func fetchPreview(for link: String) {
-    print("~~~~~~~\nmade it to fetchPreview with " + link)
     let provider = LPMetadataProvider()
     guard let url = URL(string: link) else {
       return
@@ -120,10 +111,8 @@ class ShareExtViewController: UIViewController {
     let loader = self.previewActivityIndicator
     provider.startFetchingMetadata(for: url) { metaData, error in
       guard let data = metaData, error == nil else {
-        print("~~~ error in data ~~~~")
         return
       }
-      print("~~~ adding view ~~~~")
       DispatchQueue.main.async {
         loader?.stopAnimating()
         let linkPreview = LPLinkView(metadata: data)
@@ -133,13 +122,12 @@ class ShareExtViewController: UIViewController {
         let viewWidth = view?.frame.width ?? 300
         let viewHeight = view?.frame.height ?? 170
         
-        
         linkPreview.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight)
       }
     }
   }
 
-  private func refreshAuth(_ refreshToken: String) {
+  private func refreshAuth(_ refreshToken: String, onSuccess: @escaping () -> Void, onFailure: @escaping () -> Void) {
     guard let _ = self.userId, let _ = self.authToken else {
       return
     }
@@ -159,15 +147,16 @@ class ShareExtViewController: UIViewController {
     .validate()
     .responseData { (response) in
       guard let data = response.data else { return }
-      debugPrint(response)
       do {
         let jsonDecoder = JSONDecoder()
         let parsedData = try jsonDecoder.decode(AuthResponse.self, from: data)
         self.authToken = parsedData.idToken
         self.userId = parsedData.userId
         self.refreshToken = parsedData.refreshToken
+        onSuccess()
       } catch {
-        print("ow? \(error)")
+        print("Failed refreshAuth: \(error)")
+        onFailure()
       }
     }
   }
@@ -189,14 +178,12 @@ class ShareExtViewController: UIViewController {
     .validate()
     .responseData { (response) in
       guard let data = response.data else { return }
-      debugPrint(response)
       do {
         let jsonDecoder = JSONDecoder()
         let parsedData = try jsonDecoder.decode(DocumentResponse.self, from: data)
-        self.collections = parsedData.documents
         self.initMenu(with: parsedData.documents)
       } catch {
-        print("ow? \(error)")
+        print("Failed loadCollections: \(error)")
         self.initMenu(with: [])
         self.setUserHasNoCollections()
       }
