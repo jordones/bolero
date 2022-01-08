@@ -23,14 +23,11 @@ class ShareExtViewController: UIViewController {
   
     // Collection button
     @IBOutlet weak var collectionButton: UIButton!
-    @IBAction func collectionButtonPressed(_ sender: Any) {
-    }
-    @IBOutlet weak var collectionMenu: UIMenu!
-    
     @IBOutlet weak var collectionActivityIndicator: UIActivityIndicatorView!
+
     // Rich Preview UI
-    @IBOutlet weak var RichPreviewView: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var richPreviewView: UIView!
+    @IBOutlet weak var previewActivityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
       super.viewDidLoad()
@@ -85,8 +82,8 @@ class ShareExtViewController: UIViewController {
       return
     }
 
-    let view = self.RichPreviewView
-    let loader = self.activityIndicator
+    let view = self.richPreviewView
+    let loader = self.previewActivityIndicator
     provider.startFetchingMetadata(for: url) { metaData, error in
       guard let data = metaData, error == nil else {
         print("~~~ error in data ~~~~")
@@ -164,29 +161,33 @@ class ShareExtViewController: UIViewController {
         let parsedData = try jsonDecoder.decode(DocumentResponse.self, from: data)
         self.collections = parsedData.documents
         self.initMenu(with: parsedData.documents)
-          self.collectionActivityIndicator.stopAnimating()
       } catch {
         print("ow? \(error)")
+        self.initMenu(with: [])
       }
     }
   }
   
   private func initMenu(with collections: [Collection]) {
+    let optionsClosure = { (action: UIAction) in
+      print(action.title)
+    }
+
+    var buttons: [UIAction] = []
     
-   let optionsClosure = { (action: UIAction) in
-     print(action.title)
-   }
-//    self.collectionButton.menu = UIMenu(children: [
-//     UIAction(title: "Option 1", state: .on, handler: optionsClosure),
-//     UIAction(title: "Option 2", handler: optionsClosure),
-//     UIAction(title: "Option 3", handler: optionsClosure)
-//   ])
-    let buttons: [UIAction] = collections.map { collection in
-      return UIAction(title: collection.fields.name.stringValue, handler: optionsClosure)
+    if collections.isEmpty {
+      buttons = [
+        UIAction(title: "Couldn't find collections", handler: optionsClosure)
+      ]
+      self.collectionButton.isEnabled = false
+    } else {
+      buttons = collections.map { collection in
+        return UIAction(title: collection.fields.name.stringValue, handler: optionsClosure)
+      }
     }
     buttons[0].state = .on
     self.collectionButton.menu = UIMenu(children: buttons)
+    self.collectionActivityIndicator.stopAnimating()
+
   }
 }
-
-//in your custom view controller you can refer to self.extensionContext to read and complete the share action. Refer to the code in the template ShareViewExtension
