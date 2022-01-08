@@ -19,6 +19,7 @@
 		F720F1D9275AE01B008620A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F720F1D7275AE01B008620A8 /* MainInterface.storyboard */; };
 		F720F1DD275AE01B008620A8 /* Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F720F1D3275AE01B008620A8 /* Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F720F1E8275C2ACE008620A8 /* SharedStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F720F1E7275C2ACE008620A8 /* SharedStorage.m */; };
+		F7DA20CF278942FF002A1F96 /* ShareExtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7DA20CE278942FF002A1F96 /* ShareExtViewController.swift */; };
 		F7F0D5E12786808F006A3F6B /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F0D5E02786808E006A3F6B /* Collections.swift */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,7 @@
 		F720F1E3275C2805008620A8 /* Share.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Share.entitlements; sourceTree = "<group>"; };
 		F720F1E6275C2ABB008620A8 /* SharedStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedStorage.h; sourceTree = "<group>"; };
 		F720F1E7275C2ACE008620A8 /* SharedStorage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SharedStorage.m; sourceTree = "<group>"; };
+		F7DA20CE278942FF002A1F96 /* ShareExtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtViewController.swift; sourceTree = "<group>"; };
 		F7DB547E276FC295009D54FE /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		F7F0D5E02786808E006A3F6B /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collections.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -212,6 +214,7 @@
 				F720F1D7275AE01B008620A8 /* MainInterface.storyboard */,
 				F720F1DA275AE01B008620A8 /* Info.plist */,
 				F7F0D5E02786808E006A3F6B /* Collections.swift */,
+				F7DA20CE278942FF002A1F96 /* ShareExtViewController.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F720F1D6275AE01B008620A8 /* ShareViewController.swift in Sources */,
+				F7DA20CF278942FF002A1F96 /* ShareExtViewController.swift in Sources */,
 				F7F0D5E12786808F006A3F6B /* Collections.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -735,7 +739,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -801,7 +805,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
