@@ -49,16 +49,28 @@
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="8"/>
+                                                <integer key="value" value="10"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EEr-cX-ehV">
-                                        <rect key="frame" x="24" y="179.5" width="366" height="170.5"/>
+                                        <rect key="frame" x="24" y="179.5" width="366" height="175"/>
+                                        <subviews>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="42r-dS-Pbf">
+                                                <rect key="frame" x="173" y="78" width="20" height="20"/>
+                                            </activityIndicatorView>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemFillColor"/>
+                                        <constraints>
+                                            <constraint firstItem="42r-dS-Pbf" firstAttribute="top" secondItem="EEr-cX-ehV" secondAttribute="top" constant="78" id="6G8-R5-3VD"/>
+                                            <constraint firstAttribute="trailing" secondItem="42r-dS-Pbf" secondAttribute="trailing" constant="173" id="PwJ-P8-6AU"/>
+                                            <constraint firstAttribute="bottom" secondItem="42r-dS-Pbf" secondAttribute="bottom" constant="77" id="ixl-Dl-Fq0"/>
+                                            <constraint firstAttribute="height" constant="175" id="jfb-CY-lhZ"/>
+                                            <constraint firstItem="42r-dS-Pbf" firstAttribute="leading" secondItem="EEr-cX-ehV" secondAttribute="leading" constant="173" id="yRq-bL-uL0"/>
+                                        </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="8"/>
+                                                <integer key="value" value="10"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -77,7 +89,7 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="EEr-cX-ehV" secondAttribute="bottom" constant="468" id="0p0-FY-OwU"/>
+                                    <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="EEr-cX-ehV" secondAttribute="bottom" constant="468" id="0p0-FY-OwU"/>
                                     <constraint firstAttribute="trailing" secondItem="W8p-hO-sxA" secondAttribute="trailing" constant="24" id="497-g8-vLz"/>
                                     <constraint firstItem="gbx-mz-j4r" firstAttribute="leading" secondItem="OLz-oD-QNX" secondAttribute="leading" constant="24" id="6tk-33-2Sw"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="aWI-ON-Icf" secondAttribute="trailing" constant="118" id="8a6-2S-JqO"/>
@@ -109,6 +121,10 @@
                             <constraint firstItem="OLz-oD-QNX" firstAttribute="leading" secondItem="1Xd-am-t49" secondAttribute="leading" id="Vbh-iv-SXS"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="RichPreviewView" destination="EEr-cX-ehV" id="1sw-Cs-ysD"/>
+                        <outlet property="activityIndicator" destination="42r-dS-Pbf" id="fMs-vy-B35"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEy-Cv-SGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
