@@ -9,17 +9,50 @@ import Foundation
 import UIKit
 import Social
 import LinkPresentation
+import Alamofire
 
 class ShareExtViewController: UIViewController {
   
   private static let validHosts = ["open.spotify.com", "music.apple.com"]
+    // User data
+    private var authToken: String? = nil
+    private var userId: String? = nil
+    private var refreshToken: String? = nil
+    private var collections: [Collection] = []
+
   
+    // Collection button
+    @IBOutlet weak var collectionButton: UIButton!
+    @IBAction func collectionButtonPressed(_ sender: Any) {
+    }
+    @IBOutlet weak var collectionMenu: UIMenu!
+    
+    @IBOutlet weak var collectionActivityIndicator: UIActivityIndicatorView!
+    // Rich Preview UI
     @IBOutlet weak var RichPreviewView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
       super.viewDidLoad()
-      handleSharedLink()
+      loadUserAuth()
+      
+      if refreshToken != nil {
+        self.refreshAuth(refreshToken!)
+      }
+      
+      if authToken == nil || authToken == "" {
+
+      } else {
+        handleSharedLink()
+        loadCollections()
+      }
+  }
+  
+  private func loadUserAuth() {
+    let defaults = UserDefaults(suiteName: "group.bolero")
+    authToken = defaults?.string(forKey: "access_token") ?? nil
+    userId = defaults?.string(forKey: "user_id") ?? nil
+    refreshToken = defaults?.string(forKey: "refresh_token") ?? nil
   }
   
   private func handleSharedLink() {
@@ -73,6 +106,86 @@ class ShareExtViewController: UIViewController {
         linkPreview.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight)
       }
     }
+  }
+
+  private func refreshAuth(_ refreshToken: String) {
+    guard let _ = self.userId, let _ = self.authToken else {
+      return
+    }
+
+    let url = "https://securetoken.googleapis.com/v1/token?key=AIzaSyD_7uTAILVsIe8wNDWWPCE2tlMIc4EDQqY"
+    let parameters = [
+      "grant_type": "refresh_token",
+      "refresh_token": refreshToken
+    ]
+
+    AF.request(
+      url,
+      method: .post,
+      parameters: parameters,
+      encoder: JSONParameterEncoder.default
+    )
+    .validate()
+    .responseData { (response) in
+      guard let data = response.data else { return }
+      debugPrint(response)
+      do {
+        let jsonDecoder = JSONDecoder()
+        let parsedData = try jsonDecoder.decode(AuthResponse.self, from: data)
+        self.authToken = parsedData.idToken
+        self.userId = parsedData.userId
+        self.refreshToken = parsedData.refreshToken
+      } catch {
+        print("ow? \(error)")
+      }
+    }
+  }
+  
+  // Load user's collections from FireStore
+  private func loadCollections() {
+    guard let userId = self.userId, let authToken = self.authToken else { return }
+    let url = "https://firestore.googleapis.com/v1/projects/bolero-app/databases/(default)/documents/users/\(userId)/songCollections"
+    let headers: HTTPHeaders = HTTPHeaders([
+      "Authorization": "Bearer \(authToken)",
+      "Content-Type": "application/json",
+    ]);
+
+    AF.request(
+      url,
+      method: .get,
+      headers: headers
+    )
+    .validate()
+    .responseData { (response) in
+      guard let data = response.data else { return }
+      debugPrint(response)
+      do {
+        let jsonDecoder = JSONDecoder()
+        let parsedData = try jsonDecoder.decode(DocumentResponse.self, from: data)
+        self.collections = parsedData.documents
+        self.initMenu(with: parsedData.documents)
+          self.collectionActivityIndicator.stopAnimating()
+      } catch {
+        print("ow? \(error)")
+      }
+    }
+  }
+  
+  private func initMenu(with collections: [Collection]) {
+    
+   let optionsClosure = { (action: UIAction) in
+     print(action.title)
+   }
+//    self.collectionButton.menu = UIMenu(children: [
+//     UIAction(title: "Option 1", state: .on, handler: optionsClosure),
+//     UIAction(title: "Option 2", handler: optionsClosure),
+//     UIAction(title: "Option 3", handler: optionsClosure)
+//   ])
+    let buttons: [UIAction] = collections.map { collection in
+      return UIAction(title: collection.fields.name.stringValue, handler: optionsClosure)
+    }
+    buttons[0].state = .on
+    self.collectionButton.menu = UIMenu(children: buttons)
   }
 }
 

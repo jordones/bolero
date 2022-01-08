@@ -40,7 +40,7 @@
                                         <inset key="contentEdgeInsets" minX="10" minY="12" maxX="0.0" maxY="12"/>
                                         <menu key="menu" id="hMH-Gb-lBG">
                                             <children>
-                                                <command title="Item 1" id="iPt-AR-NP3"/>
+                                                <command title="Collection" id="iPt-AR-NP3"/>
                                                 <command title="Item 2" id="Wr5-nT-zyl"/>
                                             </children>
                                         </menu>
@@ -52,6 +52,9 @@
                                                 <integer key="value" value="10"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="collectionButtonPressed:" destination="j1y-V4-xli" eventType="touchUpInside" id="w7o-UC-SZB"/>
+                                        </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EEr-cX-ehV">
                                         <rect key="frame" x="24" y="179.5" width="366" height="175"/>
@@ -86,6 +89,9 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="qHH-F6-WF8">
+                                        <rect key="frame" x="360" y="107" width="20" height="20"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -97,6 +103,7 @@
                                     <constraint firstAttribute="trailing" secondItem="EEr-cX-ehV" secondAttribute="trailing" constant="24" id="GMx-TJ-HIO"/>
                                     <constraint firstItem="W8p-hO-sxA" firstAttribute="leading" secondItem="OLz-oD-QNX" secondAttribute="leading" constant="24" id="SqW-aF-g6x"/>
                                     <constraint firstItem="ugM-uq-VvP" firstAttribute="top" secondItem="OLz-oD-QNX" secondAttribute="top" id="VZK-ZT-D5q"/>
+                                    <constraint firstAttribute="trailing" secondItem="qHH-F6-WF8" secondAttribute="trailing" constant="34" id="WOI-O9-9vt"/>
                                     <constraint firstItem="u5f-OF-mjK" firstAttribute="leading" secondItem="OLz-oD-QNX" secondAttribute="leading" constant="28" id="ZEA-YA-sOL"/>
                                     <constraint firstItem="aWI-ON-Icf" firstAttribute="leading" secondItem="OLz-oD-QNX" secondAttribute="leadingMargin" constant="119" id="bw3-4A-S0L"/>
                                     <constraint firstItem="W8p-hO-sxA" firstAttribute="top" secondItem="ugM-uq-VvP" secondAttribute="bottom" constant="24" id="clf-RW-7bf"/>
@@ -124,6 +131,9 @@
                     <connections>
                         <outlet property="RichPreviewView" destination="EEr-cX-ehV" id="1sw-Cs-ysD"/>
                         <outlet property="activityIndicator" destination="42r-dS-Pbf" id="fMs-vy-B35"/>
+                        <outlet property="collectionActivityIndicator" destination="qHH-F6-WF8" id="eNY-9r-eXJ"/>
+                        <outlet property="collectionButton" destination="gbx-mz-j4r" id="xT9-n3-Qah"/>
+                        <outlet property="collectionMenu" destination="qHH-F6-WF8" id="FkV-jy-17V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CEy-Cv-SGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
