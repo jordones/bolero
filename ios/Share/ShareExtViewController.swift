@@ -18,6 +18,10 @@ class ShareExtViewController: UIViewController {
   private var authToken: String? = nil
   private var userId: String? = nil
   private var refreshToken: String? = nil
+  
+  // State
+  private var selectedCollection: String? = nil
+  private var collections: [Collection] = []
 
   // Toolbar actions
   @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
@@ -27,7 +31,8 @@ class ShareExtViewController: UIViewController {
   @IBOutlet weak var saveButton: UIBarButtonItem!
   @IBAction func saveButtonAction(_ sender: UIBarButtonItem) {
       // TODO: Add save to collection api call
-      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    postSongLink()
+//      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
   }
   // Collection button
   @IBOutlet weak var collectionButton: UIButton!
@@ -52,7 +57,7 @@ class ShareExtViewController: UIViewController {
       setUserAsNotAuthenticated()
       return
     }
-    
+     
     handleSharedLink()
   }
   
@@ -182,6 +187,7 @@ class ShareExtViewController: UIViewController {
         let jsonDecoder = JSONDecoder()
         let parsedData = try jsonDecoder.decode(DocumentResponse.self, from: data)
         self.initMenu(with: parsedData.documents)
+        self.collections = parsedData.documents
       } catch {
         print("Failed loadCollections: \(error)")
         self.initMenu(with: [])
@@ -193,6 +199,7 @@ class ShareExtViewController: UIViewController {
   private func initMenu(with collections: [Collection]) {
     let optionsClosure = { (action: UIAction) in
       print(action.title)
+      self.selectedCollection = action.title
     }
 
     var buttons: [UIAction] = []
@@ -206,10 +213,49 @@ class ShareExtViewController: UIViewController {
       buttons = collections.map { collection in
         return UIAction(title: collection.fields.name.stringValue, handler: optionsClosure)
       }
+      self.selectedCollection = buttons[0].title
+
     }
     buttons[0].state = .on
     self.collectionButton.menu = UIMenu(children: buttons)
     self.collectionActivityIndicator.stopAnimating()
+  }
+  
+  private func postSongLink() {
+    guard let userId = self.userId, let authToken = self.authToken else {
+      return
+    }
+    let collectionToUpdate: Collection = collections.first(where: { collection in
+      collection.fields.name.stringValue == self.selectedCollection
+    }) ?? self.collections[0]
+    return
+    let now = Date().ISO8601Format()
+    // collection.name is the path in firestore
+    // e.g. projects/bolero-app/databases/(default)/documents/users/(userId)/songCollections/(collectionId)
+    let url = "https://firestore.googleapis.com/v1/\(collectionToUpdate.name)"
+    let headers: HTTPHeaders = HTTPHeaders([
+      "Authorization": "Bearer \(authToken)",
+      "Content-Type": "application/json",
+    ]);
+    
+    // TODO: build payload to update existing collection with new song link appended
+    let parameters = [
+      "fields": [
+        "songUrl": ["stringValue": "link"],
+        "comment": ["stringValue": "comment"],
+        "createdAt": ["timestampValue": now],
+        "updatedAt": ["timestampValue": now],
+      ]
+    ]
 
+    AF.request(
+      url,
+      method: .post,
+      parameters: parameters,
+      encoder: JSONParameterEncoder.default,
+      headers: headers
+    ).response { (response) in
+      debugPrint(response)
+    }
   }
 }
