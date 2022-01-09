@@ -25,15 +25,14 @@ class ShareExtViewController: UIViewController {
 
   // Toolbar actions
   @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
-      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    closeExtension()
   }
 
   @IBOutlet weak var saveButton: UIBarButtonItem!
   @IBAction func saveButtonAction(_ sender: UIBarButtonItem) {
-      // TODO: Add save to collection api call
-    postSongLink()
-//      self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+    postSongLink(onSuccess: closeExtension, onFailure: setFailedToUpload)
   }
+
   // Collection button
   @IBOutlet weak var collectionButton: UIButton!
   @IBOutlet weak var collectionActivityIndicator: UIActivityIndicatorView!
@@ -87,6 +86,10 @@ class ShareExtViewController: UIViewController {
     }
   }
   
+  private func closeExtension() {
+    self.extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+  }
+  
   private func setError(text value: String) {
     saveButton.isEnabled = false
     errorMessageLabel.text = value
@@ -104,6 +107,10 @@ class ShareExtViewController: UIViewController {
     
   private func setUserHasNoCollections() {
     setError(text: "You need to add a collection in the app before you can share")
+  }
+  
+  private func setFailedToUpload() {
+    setError(text: "Something went wrong posting your song, try again later")
   }
   
   private func fetchPreview(for link: String) {
@@ -183,11 +190,13 @@ class ShareExtViewController: UIViewController {
     .validate()
     .responseData { (response) in
       guard let data = response.data else { return }
+      debugPrint(response)
       do {
         let jsonDecoder = JSONDecoder()
         let parsedData = try jsonDecoder.decode(DocumentResponse.self, from: data)
         self.initMenu(with: parsedData.documents)
         self.collections = parsedData.documents
+        debugPrint(self.collections)
       } catch {
         print("Failed loadCollections: \(error)")
         self.initMenu(with: [])
@@ -221,15 +230,14 @@ class ShareExtViewController: UIViewController {
     self.collectionActivityIndicator.stopAnimating()
   }
   
-  private func postSongLink() {
-    guard let userId = self.userId, let authToken = self.authToken else {
+  private func postSongLink(onSuccess: @escaping () -> Void, onFailure: @escaping () -> Void) {
+    guard let authToken = self.authToken else {
+      setFailedToUpload()
       return
     }
-    let collectionToUpdate: Collection = collections.first(where: { collection in
+    var collectionToUpdate: Collection = collections.first(where: { collection in
       collection.fields.name.stringValue == self.selectedCollection
     }) ?? self.collections[0]
-    return
-    let now = Date().ISO8601Format()
     // collection.name is the path in firestore
     // e.g. projects/bolero-app/databases/(default)/documents/users/(userId)/songCollections/(collectionId)
     let url = "https://firestore.googleapis.com/v1/\(collectionToUpdate.name)"
@@ -238,24 +246,30 @@ class ShareExtViewController: UIViewController {
       "Content-Type": "application/json",
     ]);
     
-    // TODO: build payload to update existing collection with new song link appended
-    let parameters = [
-      "fields": [
-        "songUrl": ["stringValue": "link"],
-        "comment": ["stringValue": "comment"],
-        "createdAt": ["timestampValue": now],
-        "updatedAt": ["timestampValue": now],
-      ]
-    ]
+    let songToPost = CollectionField.StringField(stringValue: "test")
+    collectionToUpdate.fields.songUrls.arrayValue.values.append(songToPost)
+    
+    let parameters: CollectionPatch = CollectionPatch(fields: CollectionPatch.CollectionPatchFields(
+      name: collectionToUpdate.fields.name,
+      songUrls: collectionToUpdate.fields.songUrls
+    ))
 
     AF.request(
       url,
-      method: .post,
+      method: .patch,
       parameters: parameters,
       encoder: JSONParameterEncoder.default,
       headers: headers
-    ).response { (response) in
+    )
+    .validate()
+    .response { (response) in
       debugPrint(response)
+      switch response.result {
+      case.success:
+        onSuccess()
+      case .failure:
+        onFailure()
+      }
     }
   }
 }

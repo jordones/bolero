@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct CollectionField: Decodable {
+struct CollectionField: Codable {
   let name: StringField
-  let songUrls: ArrayField?
+  var songUrls: ArrayField
   
   enum CodingKeys: String, CodingKey {
     case name
@@ -23,25 +23,42 @@ struct CollectionField: Decodable {
     if values.contains(.songUrls) {
       self.songUrls = try values.decode(ArrayField.self, forKey: .songUrls)
     } else {
-      self.songUrls = nil
+      self.songUrls = ArrayField(arrayValue: ArrayValue(from: []))
     }
   }
   
-  struct StringField: Decodable {
+  struct StringField: Codable {
     let stringValue: String
   }
 
-  struct ArrayValue: Decodable {
-    let values: [StringField]
+  struct ArrayValue: Codable {
+    var values: [StringField]
+    
+    enum CodingKeys: String, CodingKey {
+      case values
+    }
+    
+    init(from decoder: Decoder) throws {
+      do {
+        let object = try decoder.container(keyedBy: CodingKeys.self)
+        self.values = try object.decode([StringField].self, forKey: .values)
+      } catch {
+        self.values = []
+      }
+    }
+    
+    init(from values: [StringField]) {
+      self.values = values
+    }
   }
 
-  struct ArrayField: Decodable {
-    let arrayValue: ArrayValue
+  struct ArrayField:  Codable {
+    var arrayValue: ArrayValue
   }
 }
 
-struct Collection: Decodable {
-  let fields: CollectionField
+struct Collection: Codable {
+  var fields: CollectionField
   let createTime: String
   let updateTime: String
   let name: String
@@ -68,3 +85,16 @@ struct AuthResponse: Decodable {
     case projectId = "project_id"
   }
 }
+
+struct CollectionPatch: Codable {
+  var fields: CollectionPatchFields
+
+  struct CollectionPatchFields: Codable {
+    let name: CollectionField.StringField
+    let songUrls: CollectionField.ArrayField
+  }
+}
+//"name": ["stringValue": collectionToUpdate.fields.name.stringValue],
+//"songUrls": ["arrayValue":
+//  collectionToUpdate.fields.songUrls.arrayValue.values
+//],
