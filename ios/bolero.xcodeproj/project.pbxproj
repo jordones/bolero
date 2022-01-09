@@ -15,7 +15,6 @@
 		7C4C4A0FAAEE4A41577F9EE5 /* libPods-Share.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66736D7ECE2D4D31FB413269 /* libPods-Share.a */; };
 		7EF68E3733C33B6898317E18 /* libPods-bolero-boleroTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-bolero-boleroTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		F720F1D6275AE01B008620A8 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F720F1D5275AE01B008620A8 /* ShareViewController.swift */; };
 		F720F1D9275AE01B008620A8 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F720F1D7275AE01B008620A8 /* MainInterface.storyboard */; };
 		F720F1DD275AE01B008620A8 /* Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F720F1D3275AE01B008620A8 /* Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F720F1E8275C2ACE008620A8 /* SharedStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F720F1E7275C2ACE008620A8 /* SharedStorage.m */; };
@@ -76,7 +75,6 @@
 		D00AAFFCFCFDA5787532823F /* Pods-bolero.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bolero.release.xcconfig"; path = "Target Support Files/Pods-bolero/Pods-bolero.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F720F1D3275AE01B008620A8 /* Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		F720F1D5275AE01B008620A8 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		F720F1D8275AE01B008620A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		F720F1DA275AE01B008620A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F720F1E2275C273E008620A8 /* bolero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = bolero.entitlements; path = bolero/bolero.entitlements; sourceTree = "<group>"; };
@@ -210,7 +208,6 @@
 			isa = PBXGroup;
 			children = (
 				F720F1E3275C2805008620A8 /* Share.entitlements */,
-				F720F1D5275AE01B008620A8 /* ShareViewController.swift */,
 				F720F1D7275AE01B008620A8 /* MainInterface.storyboard */,
 				F720F1DA275AE01B008620A8 /* Info.plist */,
 				F7F0D5E02786808E006A3F6B /* Collections.swift */,
@@ -563,7 +560,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F720F1D6275AE01B008620A8 /* ShareViewController.swift in Sources */,
 				F7DA20CF278942FF002A1F96 /* ShareExtViewController.swift in Sources */,
 				F7F0D5E12786808F006A3F6B /* Collections.swift in Sources */,
 			);
