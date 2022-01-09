@@ -345,7 +345,6 @@ PODS:
     - React-RCTImage
   - RNVectorIcons (9.0.0):
     - React-Core
-  - SwiftyJSON (4.3.0)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -407,7 +406,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - SwiftyJSON (~> 4.0)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -426,7 +424,6 @@ SPEC REPOS:
     - fmt
     - libevent
     - OpenSSL-Universal
-    - SwiftyJSON
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -544,10 +541,9 @@ SPEC CHECKSUMS:
   ReactCommon: 9bac022ab71596f2b0fde1268272543184c63971
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
-  SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
   Yoga: 32a18c0e845e185f4a2a66ec76e1fd1f958f22fa
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b11b23ea9f574e66880186b7b0ea296d28895040
+PODFILE CHECKSUM: f14a45f7bded5f183f74401d0c142f7a5a8568c5
 
 COCOAPODS: 1.11.2

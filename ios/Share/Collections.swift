@@ -94,7 +94,3 @@ struct CollectionPatch: Codable {
     let songUrls: CollectionField.ArrayField
   }
 }
-//"name": ["stringValue": collectionToUpdate.fields.name.stringValue],
-//"songUrls": ["arrayValue":
-//  collectionToUpdate.fields.songUrls.arrayValue.values
-//],
