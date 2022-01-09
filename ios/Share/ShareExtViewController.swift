@@ -22,6 +22,7 @@ class ShareExtViewController: UIViewController {
   // State
   private var selectedCollection: String? = nil
   private var collections: [Collection] = []
+  private var songUrl: String? = nil
 
   // Toolbar actions
   @IBAction func cancelButtonAction(_ sender: UIBarButtonItem) {
@@ -77,6 +78,7 @@ class ShareExtViewController: UIViewController {
         guard result != nil else { return }
         if let url = result as? URL, let host = url.host {
           if ShareExtViewController.validHosts.contains(host) {
+            songUrl = url.absoluteString
             fetchPreview(for: url.absoluteString)
           } else {
             setShareAsInvalid()
@@ -196,7 +198,6 @@ class ShareExtViewController: UIViewController {
         let parsedData = try jsonDecoder.decode(DocumentResponse.self, from: data)
         self.initMenu(with: parsedData.documents)
         self.collections = parsedData.documents
-        debugPrint(self.collections)
       } catch {
         print("Failed loadCollections: \(error)")
         self.initMenu(with: [])
@@ -207,7 +208,6 @@ class ShareExtViewController: UIViewController {
   
   private func initMenu(with collections: [Collection]) {
     let optionsClosure = { (action: UIAction) in
-      print(action.title)
       self.selectedCollection = action.title
     }
 
@@ -231,7 +231,7 @@ class ShareExtViewController: UIViewController {
   }
   
   private func postSongLink(onSuccess: @escaping () -> Void, onFailure: @escaping () -> Void) {
-    guard let authToken = self.authToken else {
+    guard let authToken = self.authToken, let songUrl = self.songUrl else {
       setFailedToUpload()
       return
     }
@@ -246,7 +246,7 @@ class ShareExtViewController: UIViewController {
       "Content-Type": "application/json",
     ]);
     
-    let songToPost = CollectionField.StringField(stringValue: "test")
+    let songToPost = CollectionField.StringField(stringValue: songUrl)
     collectionToUpdate.fields.songUrls.arrayValue.values.append(songToPost)
     
     let parameters: CollectionPatch = CollectionPatch(fields: CollectionPatch.CollectionPatchFields(
