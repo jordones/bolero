@@ -3,3 +3,7 @@ export enum Collections {
   following = 'folowing',
   users = 'users',
 }
+
+export enum Subcollections {
+  songCollections = 'songCollections',
+}

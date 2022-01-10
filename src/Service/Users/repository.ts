@@ -8,18 +8,29 @@ import {
   where,
 } from 'firebase/firestore';
 import { Auth } from 'firebase/auth';
-import { Collections } from '../Collections';
+import { Collections, Subcollections } from '../Collections';
 
 export interface UserProfile {
   userName: String;
+}
+
+export interface NewCollectionPayload {
+  name: string;
 }
 
 export default function (db: Firestore, auth: Auth) {
   const getUserCollection = () => collection(db, Collections.users);
   const getUserCollectionById = (id: string) =>
     collection(db, `${Collections.users}/${id}`);
+  const getUserSongSubcollectionById = (id: string) =>
+    collection(
+      db,
+      `${Collections.users}/${id}/${Subcollections.songCollections}`,
+    );
   const getUserDataCollection = () =>
     getUserCollectionById(auth.currentUser!.uid);
+  const getUserSongsSubcollection = () =>
+    getUserSongSubcollectionById(auth.currentUser!.uid);
 
   const repository = {
     getUsersByName: async (userName: string) =>
@@ -37,6 +48,9 @@ export default function (db: Firestore, auth: Auth) {
       ),
     setUserData: async (payload: UserProfile) =>
       addDoc(getUserDataCollection(), payload),
+    getSongsCollection: async () => getDocs(getUserSongsSubcollection()),
+    createSongCollection: async (payload: NewCollectionPayload) =>
+      addDoc(getUserSongsSubcollection(), payload),
   };
 
   return repository;
