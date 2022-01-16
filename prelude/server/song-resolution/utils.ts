@@ -1,3 +1,4 @@
+import { URL } from "url";
 import { Platform } from "./types";
 
 const hostnameToPlatform: { [k: string]: Platform } = {
@@ -18,6 +19,13 @@ export function parseSpotifyLinkData(spotifyLink: string) {
 
 }
 
+// Need to parse storefront and song id
 export function parseAppleMusicLinkData(appleMusicLink: string) {
-  
+  const linkAsUrl = new URL(appleMusicLink);
+  const storefront = linkAsUrl.pathname.split('/')[1];
+  const songIndex = linkAsUrl.searchParams.get('i');
+  return {
+    storefront,
+    songIndex
+  };
 }

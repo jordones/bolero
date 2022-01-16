@@ -1,5 +1,5 @@
 import { Platform } from './types';
-import { getServiceForUrl } from './utils';
+import { getServiceForUrl, parseAppleMusicLinkData } from './utils';
 
 describe('Song Resolution', () => {
   describe('Utils', () => {
@@ -18,7 +18,10 @@ describe('Song Resolution', () => {
 
     it('parseAppleMusicLinkData returns data for searching the song', () => {
       const apple = 'https://music.apple.com/ca/album/afterimage/1517666539?i=1517666542'; // query param is the song
-      test.todo('implement apple music parser');
+      expect(parseAppleMusicLinkData(apple)).toMatchObject({
+        storefront: 'ca',
+        songIndex: '1517666542'
+      })
     });
   });
 })
