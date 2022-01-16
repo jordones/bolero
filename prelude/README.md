@@ -17,7 +17,16 @@ For development, app will run at `localhost:3000`
 ```bash
 $ cd ./server
 $ npm install
-$ npm start
+$ npm run dev
+```
+
+To build for production and run, app will run at `localhost:3000`
+
+```bash
+$ cd ./server
+$ npm install
+$ npm run build
+$ npm run start
 ```
 
 Dockerfile and terraform config exist and can be used to build/run the app at `localhost:8000`.
@@ -31,4 +40,14 @@ $ terraform apply
 
 # to destroy docker container
 $ terraform destroy
+```
+
+# Unit testing
+
+To run unit tests
+
+```bash
+$ cd ./server
+$ npm install
+$ npm run test
 ```
