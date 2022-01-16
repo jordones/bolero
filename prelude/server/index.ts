@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import { AddressInfo } from 'node:net';
 import Application from './application';
 import Firebase from './lib/firebase';
+import SongResolution from './song-resolution';
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ const main = async () => {
   application.get('/health', (req, res) => {
     res.send('online');
   })
+
+  application.use('/song-resolution', SongResolution());
 
   // custom 404 page to avoid html
   application.use((_, res, _2) => res.sendStatus(404));
