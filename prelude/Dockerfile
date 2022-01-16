@@ -1,5 +1,12 @@
 # syntax=docker/dockerfile:1
-FROM node:latest
+FROM node:latest as base
+
+WORKDIR /home/node/app
+COPY ./server/package*.json ./
+RUN npm i
 COPY ./server .
-RUN npm install --production
+
+FROM base as production
+ENV NODE_PATH=./server
+RUN npm run build
 CMD ["npm", "start"]

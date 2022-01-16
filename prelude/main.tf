@@ -13,6 +13,7 @@ resource "docker_image" "server" {
   name = "server"
   build {
     path = "."
+    target= "production"
     label = {
       author : "jordo"
     }
