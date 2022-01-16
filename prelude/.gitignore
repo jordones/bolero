@@ -170,3 +170,6 @@ dist
 
 # mac OS
 .DS_Store
+
+# builds
+build
