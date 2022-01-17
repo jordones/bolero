@@ -11,4 +11,3 @@ export enum Platform {
   appleMusic = 'appleMusic',
   unsupported = 'unsupported'
 }
-  

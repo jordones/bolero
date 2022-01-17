@@ -1,6 +1,5 @@
 import { SongResolutionRepository } from "./types";
 
-
 export default (repository: SongResolutionRepository) => {
   return {
     getTrackFromSpotify: async (songId: string, market: string) => {
