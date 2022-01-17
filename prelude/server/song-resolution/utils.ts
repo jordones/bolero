@@ -15,11 +15,23 @@ export function getServiceForUrl(songUrl: string): Platform {
   return hostnameToPlatform[key];
 }
 
-export function parseSpotifyLinkData(spotifyLink: string) {
+export function isValidPlatform(platform: Platform) {
+  return platform !== Platform.unsupported;
+}
 
+// Need to parse song id
+// to be used with https://developer.spotify.com/console/get-track/?id=&market=
+export function parseSpotifyLinkData(spotifyLink: string) {
+  const linkAsUrl = new URL(spotifyLink);
+  const songIndex = linkAsUrl.pathname.replace('/track/', '');
+
+  return {
+    songIndex
+  };
 }
 
 // Need to parse storefront and song id
+// to be used with https://developer.apple.com/documentation/applemusicapi/get_a_catalog_song
 export function parseAppleMusicLinkData(appleMusicLink: string) {
   const linkAsUrl = new URL(appleMusicLink);
   const storefront = linkAsUrl.pathname.split('/')[1];

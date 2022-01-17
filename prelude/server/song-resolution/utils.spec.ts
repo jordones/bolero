@@ -1,5 +1,5 @@
 import { Platform } from './types';
-import { getServiceForUrl, parseAppleMusicLinkData } from './utils';
+import { getServiceForUrl, isValidPlatform, parseAppleMusicLinkData, parseSpotifyLinkData } from './utils';
 
 describe('Song Resolution', () => {
   describe('Utils', () => {
@@ -10,10 +10,21 @@ describe('Song Resolution', () => {
       expect(getServiceForUrl('anything-not-a-url')).toBe(Platform.unsupported);
     })
 
+    it('isValidPlatform returns false for unsupported platform', () => {
+      expect(isValidPlatform(Platform.unsupported)).toBe(false);
+      expect(isValidPlatform(Platform.spotify)).toBe(true);
+      expect(isValidPlatform(Platform.appleMusic)).toBe(true);
+    });
+
     it('parseSpotifyLinkData returns data for searching the song', () => {
       const spotify = 'https://open.spotify.com/track/3L3xny8Z4urtJbG5noCKmd?si=COHHSKKdTPm6v3qr2Ki5lQ'; // query param is a user data
       const spotifyWithQuery = 'https://open.spotify.com/track/3L3xny8Z4urtJbG5noCKmd';
-      test.todo('implement spotify parser');
+      expect(parseSpotifyLinkData(spotify)).toMatchObject({
+        songIndex: '3L3xny8Z4urtJbG5noCKmd'
+      });
+      expect(parseSpotifyLinkData(spotifyWithQuery)).toMatchObject({
+        songIndex: '3L3xny8Z4urtJbG5noCKmd'
+      });
     });
 
     it('parseAppleMusicLinkData returns data for searching the song', () => {

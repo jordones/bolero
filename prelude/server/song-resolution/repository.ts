@@ -1,3 +1,10 @@
 export default () => {
-  return {};
+  return {
+    fetchTrackFromSpotify: async (songId: string, market: string) => {
+
+    },
+    fetchTrackFromAppleMusic: async (songId: string, market: string) => {
+
+    },
+  };
 };
