@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: npm i --production
+        run: npm i
         working-directory: ${{ env.working-directory }}
       - name: Build App
         run: npm run build
@@ -28,7 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: npm i --production
+        run: npm i
         working-directory: ${{ env.working-directory }}
       - name: Test App
         run: npm test
