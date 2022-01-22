@@ -1,12 +1,12 @@
-name: CI
+name: Prelude
 
 on:
   push:
     branches: [ master ]
-    paths: "prelude/**"
+    paths: "prelude/server/**"
   pull_request:
     branches: [ master ]
-    paths: "prelude/**"
+    paths: "prelude/server/**"
 
   workflow_dispatch:
 
