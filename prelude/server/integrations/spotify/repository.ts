@@ -30,5 +30,8 @@ export default (encodedSecret: string): Repository => {
         console.error(err);
       }
     },
+    async fetchSongById (songId: string) {
+      return spotifyApi.get(`${endpoints.tracks}${songId}`);
+    },
   };
 };

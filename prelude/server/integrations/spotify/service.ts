@@ -11,6 +11,19 @@ export default (repository: Repository) => {
   }
 
   return {
-    middleware
+    middleware,
+    async getSong(songId: string) {
+      // TODO: determine a common song data format
+      const { data } = await repository.fetchSongById(songId);
+      const artistNameMap = data.artists.map(artist => artist.name);
+      return {
+        title: data.name,
+        album: data.album.name,
+        artist: artistNameMap.join(', '),
+        unique_id: data.external_ids?.isrc ?? "TODO-GENERATE_HASH",
+        explicit: data.explicit,
+        external_urls: data.external_urls,
+      }
+    },
   };
 }

@@ -1,6 +1,6 @@
 import repository from './repository';
 import Service from './service';
-import { Repository } from './types';
+import { Repository, TrackResponse } from './types';
 
 const noOp: any = () => {};
 
@@ -9,6 +9,7 @@ describe('Spotify Integration', () => {
     const repo: Repository = {
       accessTokenExpiry: undefined,
       loadAccessToken: jest.fn(),
+      fetchSongById: jest.fn(),
     }
 
     beforeEach(() => {
@@ -36,6 +37,34 @@ describe('Spotify Integration', () => {
       const service = Service(repo);
       service.middleware(noOp, noOp, noOp);
       expect(repo.loadAccessToken).not.toBeCalled();
+    });
+
+    it('GetSong returns song object', async () => {
+      const mockTrack: TrackResponse = {
+        name: 'Welcome To The Family',
+        album: { name: 'COMPLAINT'},
+        artists: [{name: 'Watsky'}],
+        external_urls: {
+          spotify: 'song-url-test'
+        },
+        explicit: false
+      };
+
+      (repo.fetchSongById as jest.Mock).mockResolvedValue({
+        data: mockTrack,
+      });
+      const service = Service(repo);
+      const result = await service.getSong("123");
+      expect(result).toMatchObject({
+        title: mockTrack.name,
+        album: mockTrack.album.name,
+        artist: mockTrack.artists[0].name,
+        unique_id: 'TODO-GENERATE_HASH',
+        explicit: false,
+        external_urls: {
+          'spotify': 'song-url-test',
+        },
+      });
     });
   });
 });
