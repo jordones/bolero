@@ -11,37 +11,24 @@ on:
   workflow_dispatch:
 
 jobs:
-  install:
+  build:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Install Dependencies
         run: |
           cd prelude/server
           npm i --production
-  build:
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
-      - name: idk
-        run: |
-          pwd
-          ls
-      - name: Open Prelude
-        run: cd prelude/server
       - name: Build App
         run: npm run build
   test:
-    needs: install
     runs-on: ubuntu-latest
     steps:
-      - name: idk
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
         run: |
-          pwd
-          ls
-      - name: Open Prelude
-        run: cd prelude/server
+          cd prelude/server
+          npm i --production
       - name: Test App
         run: npm test
           
