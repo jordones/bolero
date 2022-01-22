@@ -32,7 +32,7 @@ interface Album {
 
 // Spotify: https://developer.spotify.com/documentation/web-api/reference/#/operations/get-track
 // Apple: https://developer.apple.com/documentation/applemusicapi/songs/attributes?changes=latest_major
-interface TrackResponse {
+export interface TrackResponse {
   name: string;
   album: Album;
   artists: Artists;
