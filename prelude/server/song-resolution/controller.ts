@@ -25,7 +25,7 @@ export default (service: SongResolutionService, spotify: Spotify) => {
         break;
       case Platform.spotify:
         const result = await service.getTrackFromSpotify(songUrl);
-        console.log('result i ncontroller', result);
+        // TODO: don't return, kick off all-service search
         res.status(200).send(result);
         break;
       default:
