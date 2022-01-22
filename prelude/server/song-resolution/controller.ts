@@ -1,10 +1,12 @@
 import express from "express";
+import { Spotify } from '../integrations/spotify';
 import { Platform, SongResolutionService } from "./types";
 import { getServiceForUrl, isValidPlatform } from "./utils";
 
-export default (service: SongResolutionService) => {
+export default (service: SongResolutionService, spotify: Spotify) => {
   const router = express.Router();
-
+  router.use(spotify.middleware);
+  
   router.get('/', (req, res) => {
     res.send('Hello from song resolution');
   })
