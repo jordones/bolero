@@ -18,18 +18,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install Dependencies
         run: |
-          pwd
-          ls
           cd prelude/server
-          ls
-          pwd
           npm i --production
   build:
     needs: install
     runs-on: ubuntu-latest
     steps:
       - name: Open Prelude
-        run: cd ../prelude/server
+        run: cd prelude/server
       - name: Build App
         run: npm run build
   test:
@@ -37,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Open Prelude
-        run: cd ../prelude/server
+        run: cd prelude/server
       - name: Test App
         run: npm test
           
