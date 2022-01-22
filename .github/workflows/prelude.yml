@@ -24,6 +24,10 @@ jobs:
     needs: install
     runs-on: ubuntu-latest
     steps:
+      - name: idk
+        run: |
+          pwd
+          ls
       - name: Open Prelude
         run: cd prelude/server
       - name: Build App
@@ -32,6 +36,10 @@ jobs:
     needs: install
     runs-on: ubuntu-latest
     steps:
+      - name: idk
+        run: |
+          pwd
+          ls
       - name: Open Prelude
         run: cd prelude/server
       - name: Test App
