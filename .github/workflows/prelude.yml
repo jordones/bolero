@@ -19,18 +19,23 @@ jobs:
       - name: Install Dependencies
         run: |
           pwd
-          cd ./prelude/server
+          cd ../prelude/server
+          pwd
           npm i --production
   build:
     needs: install
     runs-on: ubuntu-latest
     steps:
+      - name: Open Prelude
+        run: cd ../prelude/server
       - name: Build App
         run: npm run build
   test:
     needs: install
     runs-on: ubuntu-latest
     steps:
+      - name: Open Prelude
+        run: cd ../prelude/server
       - name: Test App
         run: npm test
           
