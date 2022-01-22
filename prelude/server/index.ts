@@ -2,12 +2,14 @@ import dotenv from 'dotenv';
 import { AddressInfo } from 'node:net';
 import Application from './application';
 import Firebase from './lib/firebase';
+import Spotify from './integrations/spotify';
 import SongResolution from './song-resolution';
 
 dotenv.config();
 
 const application = Application();
 // const firebase = Firebase();
+const spotify = Spotify(process.env.spotify_client_encoded!);
 const port = Number.parseInt(process.env.PORT ?? "3000", 10);
 
 const main = async () => {
@@ -15,7 +17,7 @@ const main = async () => {
     res.send('online');
   })
 
-  application.use('/song-resolution', SongResolution());
+  application.use('/song-resolution', SongResolution(spotify));
 
   // custom 404 page to avoid html
   application.use((_, res, _2) => res.sendStatus(404));

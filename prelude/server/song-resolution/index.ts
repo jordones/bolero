@@ -1,5 +1,6 @@
 import Repository from './repository';
 import Service from './service';
 import Controller from './controller';
+import { Spotify } from '../integrations/spotify';
 
-export default () => Controller(Service(Repository()));
+export default (spotify: Spotify) => Controller(Service(Repository(spotify)), spotify);
