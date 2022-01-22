@@ -68,13 +68,3 @@ describe('Spotify Integration', () => {
     });
   });
 });
-
-// const artistNameMap = data.artists.map(artist => artist.name);
-// return {
-//   title: data.name,
-//   album: data.album.name,
-//   artist: artistNameMap.join(', '),
-//   unique_id: data.external_ids?.isrc ?? "TODO-GENERATE_HASH",
-//   explicit: data.explicit,
-//   external_urls: data.external_urls,
-// }
