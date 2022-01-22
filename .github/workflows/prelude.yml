@@ -25,6 +25,8 @@ jobs:
         working-directory: ${{ env.working-directory }}
   test:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./prelude/server
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
