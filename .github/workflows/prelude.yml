@@ -13,22 +13,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./prelude/server
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: |
-          cd prelude/server
-          npm i --production
+        run: npm i --production
+        working-directory: ${{ env.working-directory }}
       - name: Build App
         run: npm run build
+        working-directory: ${{ env.working-directory }}
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: |
-          cd prelude/server
-          npm i --production
+        run: npm i --production
+        working-directory: ${{ env.working-directory }}
       - name: Test App
         run: npm test
+        working-directory: ${{ env.working-directory }}
           
