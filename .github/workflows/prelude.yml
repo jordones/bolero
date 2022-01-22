@@ -1,36 +1,38 @@
-name: CI
+name: Prelude
 
 on:
   push:
     branches: [ master ]
-    paths: "prelude/**"
+    paths: "prelude/server/**"
   pull_request:
     branches: [ master ]
-    paths: "prelude/**"
+    paths: "prelude/server/**"
 
   workflow_dispatch:
 
 jobs:
-  install:
+  build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./prelude/server
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: |
-          pwd
-          cd ./prelude/server
-          npm i --production
-  build:
-    needs: install
-    runs-on: ubuntu-latest
-    steps:
+        run: npm i
+        working-directory: ${{ env.working-directory }}
       - name: Build App
         run: npm run build
+        working-directory: ${{ env.working-directory }}
   test:
-    needs: install
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./prelude/server
     steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: npm i
+        working-directory: ${{ env.working-directory }}
       - name: Test App
         run: npm test
+        working-directory: ${{ env.working-directory }}
           
