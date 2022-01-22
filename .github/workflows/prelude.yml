@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+    paths: "prelude/**"
+  pull_request:
+    branches: [ master ]
+    paths: "prelude/**"
+
+  workflow_dispatch:
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          pwd
+          cd ./prelude/server
+          npm i --production
+  build:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build App
+        run: npm run build
+  test:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test App
+        run: npm test
+          
