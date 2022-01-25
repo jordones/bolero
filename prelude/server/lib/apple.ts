@@ -16,7 +16,7 @@ interface JwtObject {
 }
 
 function generateAppleMusicJwtObject(keyId: string, teamId: string): JwtObject {
-  const timeOfIssue = Date.now();
+  const timeOfIssue = Math.floor(Date.now() / 1000);
   return {
     header: {
       alg: ALGO,
