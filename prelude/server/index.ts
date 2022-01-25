@@ -4,12 +4,18 @@ import Application from './application';
 import Firebase from './lib/firebase';
 import Spotify from './integrations/spotify';
 import SongResolution from './song-resolution';
+import AppleJwt from './lib/apple';
 
 dotenv.config();
 
 const application = Application();
 // const firebase = Firebase();
 const spotify = Spotify(process.env.spotify_client_encoded!);
+const appleJwt = AppleJwt(
+  process.env.apple_music_key_id!,
+  process.env.apple_team_id!,
+  process.env.apple_music_key_encoded!,
+)
 const port = Number.parseInt(process.env.PORT ?? "3000", 10);
 
 const main = async () => {
