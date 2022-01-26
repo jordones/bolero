@@ -38,7 +38,7 @@ function decodePrivateKey(privateKey: string): string {
   return base64Decode(privateKey);
 }
 
-export default (keyId: string, teamId: string, privateKey: string): string => {
+export default function AppleMusicAuth(keyId: string, teamId: string, privateKey: string): string {
   const { header, payload } = generateAppleMusicJwtObject(keyId, teamId);
   return jwt.sign(payload, decodePrivateKey(privateKey), {
     header,

@@ -22,6 +22,8 @@ export default (service: SongResolutionService, spotify: Spotify) => {
     }
     switch(platform) {
       case Platform.appleMusic:
+        const resultApple = await service.getTrackFromAppleMusic(songUrl);
+        res.status(200).send(resultApple);
         break;
       case Platform.spotify:
         const result = await service.getTrackFromSpotify(songUrl);
