@@ -6,11 +6,13 @@ export interface Repository {
   accessTokenExpiry: Date | undefined;
   loadAccessToken: () => Promise<void>;
   fetchSongById: (songId: string) => Promise<AxiosResponse<TrackResponse>>;
+  searchByIsrc: (isrc: string) => any;
 }
 
 export const endpoints = {
   token: '/api/token/',
   tracks: '/v1/tracks/',
+  search: '/v1/search/',
 };
 
 export interface AuthResponse {

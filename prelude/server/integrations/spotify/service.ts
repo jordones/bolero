@@ -26,5 +26,9 @@ export default (repository: Repository) => {
         external_urls: data.external_urls,
       }
     },
+    async searchSong(any: string): Promise<any> {
+      const { data } = await repository.searchByIsrc(any);
+      return data;
+    },
   };
 }

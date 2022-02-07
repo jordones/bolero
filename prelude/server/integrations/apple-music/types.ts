@@ -10,10 +10,12 @@ export interface TokenArgs {
 export type Service = ReturnType<typeof Service>;
 export interface Repository {
   fetchSongById: (songId: string, market: string) => Promise<AxiosResponse<TrackResponse>>;
+  searchByIsrc: (isrc: string) => any;
 }
 
 export const endpoints = {
   tracks: (id: string, storefront: string) => `v1/catalog/${storefront}/songs/${id}`,
+  search: (isrc: string) => `v1/catalog/CA/songs?filter[isrc]=${isrc}`, // TODO: find a source for storefront and un-hardcode
 };
 
 interface Artist {

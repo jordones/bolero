@@ -9,6 +9,9 @@ export default (encodedSecret: string): Repository => {
     baseURL: BASE_URL,
   });
 
+  const baseTrackSearchQuery = "type=track&limit=1";
+  const buildSearchQuery = (query: string) => spotifyApi.get(`${endpoints.search}?${query}&${baseTrackSearchQuery}`)
+
   return {
     accessTokenExpiry: undefined,
     async loadAccessToken () {
@@ -32,6 +35,11 @@ export default (encodedSecret: string): Repository => {
     },
     async fetchSongById (songId: string) {
       return spotifyApi.get(`${endpoints.tracks}${songId}`);
+    },
+    async searchByIsrc (isrc: string) {
+      const query = `q=isrc:${isrc}`
+      return buildSearchQuery(query);
+      // return spotifyApi.get(`${endpoints.search}?q=${query}&${baseTrackSearchQuery}`)
     },
   };
 };
