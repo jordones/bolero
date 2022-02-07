@@ -16,8 +16,6 @@ export default ({teamId, keyId, privateKey}: TokenArgs): Repository => {
 
   return {
     async fetchSongById (songId: string, market: string) {
-      console.log('fetching song')
-      console.log(appleMusicApi);
       return appleMusicApi.get(endpoints.tracks(songId, market));
     },
   };

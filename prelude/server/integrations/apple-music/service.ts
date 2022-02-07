@@ -5,11 +5,7 @@ export default (repository: Repository) => {
     async getSong(songId: string, market: string) {
       // TODO: determine a common song data format
       const { data } = await repository.fetchSongById(songId, market);
-      console.log('fetched song');
-      console.log(data);
-      // return data;
       const song = data.data[0];
-      // const artistNameMap = data.artists.map(artist => artist.name);
       return {
         title: song.attributes.name,
         album: song.attributes.albumName,

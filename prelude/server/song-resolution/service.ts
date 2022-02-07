@@ -9,9 +9,7 @@ export default (repository: SongResolutionRepository) => {
       return res;
     },
     getTrackFromAppleMusic: async (appleMusicUrl: string) => {
-      console.log('got to service')
       const { songIndex, storefront } = parseAppleMusicLinkData(appleMusicUrl);
-      console.log (songIndex, storefront);
       const res = await repository.fetchTrackFromAppleMusic(songIndex!, storefront);
       return res;
     }
