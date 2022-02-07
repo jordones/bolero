@@ -15,7 +15,7 @@ describe('Song Resolution', () => {
     it('getTrackFromAppleMusic', async () => {
       repository.fetchTrackFromAppleMusic.mockResolvedValue({ hello: 'world' });
       const service = Service(repository);
-      const result = await service.getTrackFromAppleMusic('123', 'ca');
+      const result = await service.getTrackFromAppleMusic('https://music.apple.com/ca/album/afterimage/1517666539?i=1517666542');
       test.todo('Add API to repository');    
     });
   });

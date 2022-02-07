@@ -1,5 +1,5 @@
 import { SongResolutionRepository } from "./types";
-import { parseSpotifyLinkData } from "./utils";
+import { parseAppleMusicLinkData, parseSpotifyLinkData } from "./utils";
 
 export default (repository: SongResolutionRepository) => {
   return {
@@ -8,8 +8,9 @@ export default (repository: SongResolutionRepository) => {
       const res = await repository.fetchTrackFromSpotify(songIndex, "");
       return res;
     },
-    getTrackFromAppleMusic: async (songId: string, market: string) => {
-      const res = await repository.fetchTrackFromAppleMusic(songId, market);
+    getTrackFromAppleMusic: async (appleMusicUrl: string) => {
+      const { songIndex, storefront } = parseAppleMusicLinkData(appleMusicUrl);
+      const res = await repository.fetchTrackFromAppleMusic(songIndex!, storefront);
       return res;
     }
   };
