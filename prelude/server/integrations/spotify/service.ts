@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { BoleroTrack } from '../../lib/types';
 import { Repository } from "./types";
 
 export default (repository: Repository) => {
@@ -12,7 +13,7 @@ export default (repository: Repository) => {
 
   return {
     middleware,
-    async getSong(songId: string) {
+    async getSong(songId: string): Promise<BoleroTrack> {
       // TODO: determine a common song data format
       const { data } = await repository.fetchSongById(songId);
       const artistNameMap = data.artists.map(artist => artist.name);
